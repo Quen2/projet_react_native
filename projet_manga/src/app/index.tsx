@@ -4,6 +4,7 @@ import SignUp from "@/components/SignUp";
 import Homepage from "@/views/Homepage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useEffect, useState} from "react";
+import {getUser} from "@/api/user/userStorage";
 
 export default function Index() {
   const [connected, setConnected] = useState<string | null>(null);

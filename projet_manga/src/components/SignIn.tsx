@@ -1,6 +1,6 @@
 import {Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {getUser} from "@/api/user/getUser";
+import {getUser} from "@/api/user/userStorage";
 import {useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,10 +16,10 @@ export default function SignIn ({onSwitch}: SignInProps) {
     const insets = useSafeAreaInsets();
 
     const logUser = async () => {
-        const user = getUser(email, password)
-        if (user) {
-            await AsyncStorage.setItem("user", JSON.stringify(user));
-        } else {
+        const user = await getUser(email, password)
+        await AsyncStorage.setItem("user", JSON.stringify(user));
+
+        if (!user) {
             setErrorMessage("Mauvaise combinaison email/mot de passe");
         }
     }
@@ -60,7 +60,7 @@ export default function SignIn ({onSwitch}: SignInProps) {
                             errorMessage ?
                                 <Text className="mt-2 font-inter-light text-[10px] text-ink">*{errorMessage}</Text> : null
                         }
-                        
+
                         <Pressable
                             onPress={logUser}
                             className="mt-5 h-10 items-center justify-center rounded-lg bg-primary px-4"

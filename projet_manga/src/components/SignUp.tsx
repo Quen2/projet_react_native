@@ -1,8 +1,7 @@
 import {Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {use, useState} from "react";
-import {createUser} from "@/api/user/createUser";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {createUser} from "@/api/user/userStorage";
 
 type SignUpProps = {
     onSwitch: () => void;
@@ -13,11 +12,15 @@ export default function SignUp ({onSwitch}: SignUpProps) {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [hidden, setHidden] = useState<boolean>(true);
+    const [errorMessage, setErrorMessage] = useState<string>("")
     const insets = useSafeAreaInsets();
 
     const submitUserCreation = async () => {
-        const createdUser = createUser(username, email, password);
-        await AsyncStorage.setItem("user", JSON.stringify(createdUser));
+        try {
+            const createdUser = await createUser(username, email, password);
+        } catch (e) {
+            setErrorMessage((e as Error).message);
+        }
     }
 
     return (
