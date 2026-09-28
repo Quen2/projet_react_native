@@ -36,8 +36,8 @@ export default function Index() {
               {
                 hasAnAccount ? <View className="w-full flex-1">
                   <SignIn onSwitch={switchLogin} />
-                </View> : <View>
-                  <SignUp />
+                </View> : <View className="w-full flex-1">
+                  <SignUp onSwitch={switchLogin} />
                 </View>
               }
             </View>
