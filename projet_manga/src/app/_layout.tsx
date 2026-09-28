@@ -1,7 +1,8 @@
 import "../../global.css";
 
 import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function RootLayout() {
-  return <Stack />;
+  return <Stack screenOptions={{headerShown: false}} />;
 }

@@ -1,11 +1,28 @@
 import { Text, View, StyleSheet } from "react-native";
+import SignIn from "@/components/SignIn";
+import SignUp from "@/components/SignUp";
+import Homepage from "@/views/Homepage";
 
 export default function Index() {
+  const connected = false;
+  const hasAnAccount = true;
+
   return (
     <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-xl font-bold text-blue-500">
-        Welcome to Nativewind!
-      </Text>
+      {
+        connected ?
+            <View>
+              <Homepage />
+            </View> : <View>
+              {
+                hasAnAccount ? <View>
+                  <SignIn />
+                </View> : <View>
+                  <SignUp />
+                </View>
+              }
+            </View>
+      }
     </View>
 
   );
