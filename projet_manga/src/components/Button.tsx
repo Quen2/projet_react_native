@@ -14,9 +14,9 @@ export default function Button(props: {
     return (
         <Pressable
             onPress={onPress}
-            className={`m-1 rounded-full px-4 py-2 ${selected ? "bg-primary" : "bg-white"}`}
+            className={`items-center justify-center rounded-xl border border-primary px-2 py-1 ${selected ? "bg-primary" : ""}`}
         >
-            <Text className={selected ? "text-white" : "text-ink"}>
+            <Text className={`font-inter text-xs leading-[15px] ${selected ? "text-white" : "text-primary"}`}>
                 {capitalizeFirstLetter(label)}
             </Text>
         </Pressable>

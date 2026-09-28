@@ -1,8 +1,9 @@
 import {Text, View} from "react-native";
-import CategoryButtons, {Filters} from "@/components/CategoryButtons";
+import {Filters} from "@/enums/type/filtersType";
 import {useEffect, useState} from "react";
 import MangaList from "@/views/MangaList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CategoryButtons from "@/components/CategoryButtons";
 
 export default function Homepage () {
     const [filters, setFilters] = useState<Filters | null>(null);
@@ -22,7 +23,7 @@ export default function Homepage () {
     }
 
     return (
-        <View>
+        <View className="flex-1">
             {
                 filters ? <MangaList filters={filters} />
                     : <CategoryButtons onSubmit={handleSubmit} />
