@@ -5,46 +5,24 @@ import Homepage from "@/views/Homepage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useEffect, useState} from "react";
 import {getUser} from "@/api/user/userStorage";
+import {useAuth} from "@/context/AuthContext";
 
 export default function Index() {
-  const [connected, setConnected] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const {isAuthenticated} = useAuth();
   const [hasAnAccount, setHasAnAccount] = useState<boolean>(true)
 
   const switchLogin = () => {
     setHasAnAccount(!hasAnAccount);
   }
 
-  useEffect(() => {
-    const checkConnected = async () => {
-      try {
-        const user = await AsyncStorage.getItem("user");
-        setConnected(user)
-      } finally {
-        setLoading(false);
-      }
-    }
-    checkConnected();
-  }, []);
-
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      {
-        connected ?
-            <View>
-              <Homepage />
-            </View> : <View className="w-full flex-1">
-              {
-                hasAnAccount ? <View className="w-full flex-1">
-                  <SignIn onSwitch={switchLogin} />
-                </View> : <View className="w-full flex-1">
-                  <SignUp onSwitch={switchLogin} />
-                </View>
-              }
-            </View>
-      }
-    </View>
-
+      <View className="flex-1 bg-white">
+        {
+          isAuthenticated ? <Homepage />
+              : hasAnAccount ? <SignIn onSwitch={switchLogin} />
+                  : <SignUp onSwitch={switchLogin} />
+        }
+      </View>
   );
 }
 

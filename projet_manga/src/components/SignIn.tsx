@@ -1,8 +1,7 @@
 import {Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TextInput, View} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {getUser} from "@/api/user/userStorage";
 import {useState} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useAuth} from "@/context/AuthContext";
 
 type SignInProps = {
     onSwitch: () => void;
@@ -14,12 +13,12 @@ export default function SignIn ({onSwitch}: SignInProps) {
     const [errorMessage, setErrorMessage] = useState<string>("")
     const [hidden, setHidden] = useState<boolean>(true);
     const insets = useSafeAreaInsets();
+    const { login } = useAuth();
 
     const logUser = async () => {
-        const user = await getUser(email, password)
-        await AsyncStorage.setItem("user", JSON.stringify(user));
+        const success = await login(email, password);
 
-        if (!user) {
+        if (!success) {
             setErrorMessage("Mauvaise combinaison email/mot de passe");
         }
     }
