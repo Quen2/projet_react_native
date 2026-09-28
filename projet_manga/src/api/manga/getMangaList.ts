@@ -16,9 +16,7 @@ export const getMangaList = async (filters: Filters) => {
             throw new Error(`Erreur ${response.status}`);
         }
 
-        const json = await response.json();
-        console.log(json);
-        return json;
+        return await response.json();
     } catch (error) {
         console.log(error);
         return null;
