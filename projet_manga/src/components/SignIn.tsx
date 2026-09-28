@@ -60,9 +60,7 @@ export default function SignIn ({onSwitch}: SignInProps) {
                             errorMessage ?
                                 <Text className="mt-2 font-inter-light text-[10px] text-ink">*{errorMessage}</Text> : null
                         }
-
-                        <Text className="mt-3 self-end font-inter text-xs text-ink underline">Mot de passe oublié ?</Text>
-
+                        
                         <Pressable
                             onPress={logUser}
                             className="mt-5 h-10 items-center justify-center rounded-lg bg-primary px-4"
