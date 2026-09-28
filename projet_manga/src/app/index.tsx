@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Pressable} from "react-native";
+import {View, StyleSheet} from "react-native";
 import SignIn from "@/components/SignIn";
 import SignUp from "@/components/SignUp";
 import Homepage from "@/views/Homepage";
@@ -32,13 +32,10 @@ export default function Index() {
         connected ?
             <View>
               <Homepage />
-            </View> : <View>
+            </View> : <View className="w-full flex-1">
               {
-                hasAnAccount ? <View>
-                  <SignIn />
-                  <Pressable onPress={switchLogin}>
-                    <Text>Pas de compte ? Créez en un</Text>
-                  </Pressable>
+                hasAnAccount ? <View className="w-full flex-1">
+                  <SignIn onSwitch={switchLogin} />
                 </View> : <View>
                   <SignUp />
                 </View>
