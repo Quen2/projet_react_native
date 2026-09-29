@@ -1,9 +1,11 @@
 import {KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View} from "react-native";
 import {useState} from "react";
-import {router} from "expo-router";
+import {router, Link} from "expo-router";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useAuth} from "@/context/AuthContext";
 import UpdateUser from "@/views/UpdateUser";
+import EditInfosForm from "@/components/EditFiltersForm";
+import {Ionicons} from "@expo/vector-icons";
 
 type View_ = "profile" | "users";
 
@@ -34,7 +36,14 @@ export default function ProfilPage() {
                 keyboardShouldPersistTaps="handled"
             >
                 <View className="w-full max-w-md flex-grow self-center">
-                    <Text className="font-inter-semibold text-[28px] leading-[34px] text-ink">Profil</Text>
+                    <Link href={"/"}>
+                        <Pressable hitSlop={10} className="mr-3 mt-1">
+                            <Ionicons name="chevron-back" size={26} color="#141A26" />
+                        </Pressable>
+                    </Link>
+                    <Text className="font-inter-semibold text-[28px] leading-[34px] text-ink">
+                        Profil
+                    </Text>
 
                     <View className="mt-6 flex-row items-center rounded-lg border-[0.5px] border-outline bg-white p-4">
                         <View className="h-12 w-12 items-center justify-center rounded-full bg-primary">
@@ -97,7 +106,10 @@ export default function ProfilPage() {
                             {showUsers ? (
                                 <Text className="font-inter text-xs text-ink">Je modifie les utilisateurs</Text>
                             ) : (
-                                <UpdateUser />
+                                <View>
+                                    <UpdateUser />
+                                    <EditInfosForm />
+                                </View>
                             )}
                         </View>
                     </View>
