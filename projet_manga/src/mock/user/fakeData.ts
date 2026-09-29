@@ -11,6 +11,6 @@ export const userData: UserType[] = [
         username: "Fiakos",
         email: "Quentin@test.fr",
         password: "Test1234!",
-        role: "user"
+        role: "admin"
     }
 ]
