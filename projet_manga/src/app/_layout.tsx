@@ -3,21 +3,21 @@ import "@/theme/global.css";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts, Inter_300Light, Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from "@expo-google-fonts/inter";
-import { useEffect } from "react";
+import { useState } from "react";
 import {AuthProvider} from "@/context/AuthContext";
+import AnimatedSplash from "@/components/AnimatedSplash";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({ Inter_300Light, Inter_400Regular, Inter_500Medium, Inter_600SemiBold });
-
-  useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync();
-  }, [fontsLoaded]);
+  const [splashFinished, setSplashFinished] = useState<boolean>(false);
 
   if (!fontsLoaded) return null;
 
+  if (!splashFinished) return <AnimatedSplash onFinish={() => setSplashFinished(true)} />;
+
   return <AuthProvider>
-    <Stack screenOptions={{headerShown: false}} />;
+    <Stack screenOptions={{headerShown: false}} />
   </AuthProvider>
 }
