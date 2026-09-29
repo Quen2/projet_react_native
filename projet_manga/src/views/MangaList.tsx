@@ -1,33 +1,27 @@
-import {Pressable, Text, View} from "react-native";
-import {useEffect} from "react";
-import {getMangaList} from "@/api/manga/getMangaList";
+import {ScrollView, View} from "react-native";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {Filters} from "@/enums/type/filtersType";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import MangaSection from "@/components/MangaSection";
+import ReleaseCalendar from "@/components/ReleaseCalendar";
+import TabBar from "@/components/TabBar";
+
+const NO_FILTERS: Filters = {categories: [], type: null};
 
 export default function MangaList(props: {
     filters: Filters;
 }) {
     const { filters } = props;
-
-    useEffect(() => {
-        const loadManga = async () => {
-            const data = await getMangaList(filters);
-        }
-        loadManga()
-    }, []);
-
-    const wipeAsync = async () => {
-        AsyncStorage.clear()
-    }
+    const insets = useSafeAreaInsets();
 
     return (
-        <View>
-            <Text>Je suis la page manga</Text>
-            <Pressable onPress={wipeAsync}>
-                <Text>
-                    Wipe
-                </Text>
-            </Pressable>
+        <View className="flex-1 bg-background">
+            <View className="bg-white" style={{height: insets.top}} />
+            <ScrollView contentContainerClassName="pb-6">
+                <MangaSection key={JSON.stringify(filters)} title="Nos recommandations" filters={filters} />
+                <MangaSection title="Catalogue" filters={NO_FILTERS} />
+                <ReleaseCalendar />
+            </ScrollView>
+            <TabBar />
         </View>
     )
 }

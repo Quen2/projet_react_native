@@ -25,9 +25,9 @@ const formatDate = (iso: string | null) =>
 
 function InfoRow({label, value}: {label: string; value: string}) {
     return (
-        <View className="mb-2">
-            <Text className="font-inter text-xs text-ink/70">{label}</Text>
-            <Text className="mt-0.5 font-inter-semibold text-sm text-ink">{value}</Text>
+        <View className="mb-1.5">
+            <Text className="font-inter text-[11px] leading-[13px] text-ink/70">{label}</Text>
+            <Text className="font-inter-semibold text-xs leading-[15px] text-ink">{value}</Text>
         </View>
     );
 }
@@ -71,10 +71,10 @@ export default function DetailPage() {
                     </Pressable>
                 </View>
 
-                <View className="mt-6 flex-row gap-4 px-4">
+                <View className="mt-6 flex-row items-center gap-4 px-4">
                     <Image
                         source={{uri: manga.images.jpg.large_image_url}}
-                        className="h-60 w-40 rounded"
+                        className="aspect-[2/3] w-40 rounded"
                         resizeMode="cover"
                     />
 
@@ -83,13 +83,13 @@ export default function DetailPage() {
                         <InfoRow label="Magazine" value={series} />
                         <InfoRow label="Type" value={manga.type} />
 
-                        <View className="mb-2">
-                            <Text className="font-inter text-xs text-ink/70">Genre</Text>
-                            <View className="mt-0.5 flex-row flex-wrap">
+                        <View className="mb-1.5">
+                            <Text className="font-inter text-[11px] leading-[13px] text-ink/70">Genre</Text>
+                            <View className="flex-row flex-wrap">
                                 {genres.map((genre, index) => (
                                     <Text
                                         key={genre}
-                                        className={`font-inter-semibold text-sm text-ink ${
+                                        className={`font-inter-semibold text-xs leading-[15px] text-ink ${
                                             index > 0 ? "border-l border-outline pl-1.5" : ""
                                         } pr-1.5`}
                                     >
@@ -106,7 +106,7 @@ export default function DetailPage() {
                                 label="Contenu"
                                 value={`${manga.chapters ?? "?"} chapitres · ${manga.volumes ?? "?"} vol.`}
                             />
-                            <Ionicons name="information-circle-outline" size={16} color="#141A26" style={{marginBottom: 10}} />
+                            <Ionicons name="information-circle-outline" size={16} color="#141A26" style={{marginBottom: 6}} />
                         </View>
                     </View>
                 </View>
