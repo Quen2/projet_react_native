@@ -38,3 +38,9 @@ export async function getUser(email: string, password: string): Promise<UserType
         (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
     );
 }
+
+export async function updateStoredUser(email: string, changes: Partial<UserType>): Promise<void> {
+    const users = await getAllUsers();
+    const updated = users.map((u) => (u.email === email ? {...u, ...changes} : u));
+    await AsyncStorage.setItem("users", JSON.stringify(updated));
+}

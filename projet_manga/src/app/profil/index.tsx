@@ -3,6 +3,7 @@ import {useState} from "react";
 import {router} from "expo-router";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useAuth} from "@/context/AuthContext";
+import UpdateUser from "@/views/UpdateUser";
 
 type View_ = "profile" | "users";
 
@@ -92,11 +93,11 @@ export default function ProfilPage() {
                             {showUsers ? "Gestion des utilisateurs" : "Mes informations"}
                         </Text>
 
-                        <View className="mt-2 rounded-lg border-[0.5px] border-outline bg-white p-4">
+                        <View className="mt-2 bg-white p-4">
                             {showUsers ? (
                                 <Text className="font-inter text-xs text-ink">Je modifie les utilisateurs</Text>
                             ) : (
-                                <Text className="font-inter text-xs text-ink">Je modifie mes infos et filtres</Text>
+                                <UpdateUser />
                             )}
                         </View>
                     </View>
