@@ -1,10 +1,12 @@
-import {Image, Linking, Pressable, ScrollView, Text, View} from "react-native";
-import {router, useLocalSearchParams, Link} from "expo-router";
+import {Image, Pressable, ScrollView, Text, View} from "react-native";
+import {router, useLocalSearchParams} from "expo-router";
 import {useEffect, useState} from "react";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {Ionicons} from "@expo/vector-icons";
 import {MangaType} from "@/enums/type/mangaType";
-import {getManga} from "@/api/manga/getMangaList";
+import {MangaPictureType} from "@/enums/type/mangaPictureType";
+import {getManga, getMangaPictures} from "@/api/manga/getMangaList";
+import Illustrations from "@/components/Illustrations";
 
 type Tab = "synopsis" | "background" | "infos";
 
@@ -24,8 +26,8 @@ const formatDate = (iso: string | null) =>
 function InfoRow({label, value}: {label: string; value: string}) {
     return (
         <View className="mb-2">
-            <Text className="font-inter text-sm text-ink/70">{label}</Text>
-            <Text className="font-inter-semibold text-base text-ink">{value}</Text>
+            <Text className="font-inter text-xs text-ink/70">{label}</Text>
+            <Text className="mt-0.5 font-inter-semibold text-sm text-ink">{value}</Text>
         </View>
     );
 }
@@ -34,12 +36,14 @@ export default function DetailPage() {
     const {id} = useLocalSearchParams<{id: string}>();
     const insets = useSafeAreaInsets();
     const [manga, setManga] = useState<MangaType | null>(null);
+    const [pictures, setPictures] = useState<MangaPictureType[]>([]);
     const [activeTab, setActiveTab] = useState<Tab>("synopsis");
     const [favorite, setFavorite] = useState(false);
 
     useEffect(() => {
         if (!id) return;
         getManga(id).then(setManga);
+        getMangaPictures(id).then(setPictures);
     }, [id]);
 
     if (!manga) {
@@ -53,24 +57,22 @@ export default function DetailPage() {
     return (
         <View className="flex-1 bg-background" style={{paddingTop: insets.top}}>
             <ScrollView contentContainerStyle={{paddingBottom: 120}}>
-                <View className="flex-row items-start px-4 pt-4">
-                    <Link href={"/"}>
-                        <Pressable onPress={() => router.back()} hitSlop={10} className="mr-3 mt-1">
-                            <Ionicons name="chevron-back" size={26} color="#141A26" />
-                        </Pressable>
-                    </Link>
-                    <Text className="flex-1 font-inter-semibold text-base text-ink" numberOfLines={2}>
+                <View className="flex-row items-center px-4 pt-5">
+                    <Pressable onPress={() => router.back()} hitSlop={10} className="mr-3">
+                        <Ionicons name="chevron-back" size={24} color="#141A26" />
+                    </Pressable>
+                    <Text className="flex-1 font-inter-semibold text-sm leading-[17px] text-ink" numberOfLines={2}>
                         {manga.title}
                     </Text>
                     <Pressable onPress={() => setFavorite(!favorite)} hitSlop={10} className="ml-3">
-                        <Ionicons name={favorite ? "star" : "star-outline"} size={26} color="#141A26" />
+                        <Ionicons name={favorite ? "star" : "star-outline"} size={24} color="#141A26" />
                     </Pressable>
                 </View>
 
                 <View className="mt-6 flex-row gap-4 px-4">
                     <Image
                         source={{uri: manga.images.jpg.large_image_url}}
-                        className="h-60 w-40 rounded-xl"
+                        className="h-60 w-40 rounded"
                         resizeMode="cover"
                     />
 
@@ -80,12 +82,12 @@ export default function DetailPage() {
                         <InfoRow label="Type" value={manga.type} />
 
                         <View className="mb-2">
-                            <Text className="font-inter text-sm text-ink/70">Genre</Text>
-                            <View className="flex-row flex-wrap">
+                            <Text className="font-inter text-xs text-ink/70">Genre</Text>
+                            <View className="mt-0.5 flex-row flex-wrap">
                                 {genres.map((genre, index) => (
                                     <Text
                                         key={genre}
-                                        className={`font-inter-semibold text-base text-ink ${
+                                        className={`font-inter-semibold text-sm text-ink ${
                                             index > 0 ? "border-l border-outline pl-1.5" : ""
                                         } pr-1.5`}
                                     >
@@ -102,7 +104,7 @@ export default function DetailPage() {
                                 label="Contenu"
                                 value={`${manga.chapters ?? "?"} chapitres · ${manga.volumes ?? "?"} vol.`}
                             />
-                            <Ionicons name="information-circle-outline" size={20} color="#141A26" />
+                            <Ionicons name="information-circle-outline" size={16} color="#141A26" style={{marginBottom: 10}} />
                         </View>
                     </View>
                 </View>
@@ -119,9 +121,9 @@ export default function DetailPage() {
                             <Pressable
                                 key={tab.key}
                                 onPress={() => setActiveTab(tab.key)}
-                                className={`pb-1.5 ${active ? "border-b-2 border-primary" : ""}`}
+                                className={`pb-1 ${active ? "border-b border-primary" : ""}`}
                             >
-                                <Text className={`font-inter-medium text-base ${active ? "text-primary" : "text-ink"}`}>
+                                <Text className={`font-inter text-sm ${active ? "text-primary" : "text-ink"}`}>
                                     {tab.label}
                                 </Text>
                             </Pressable>
@@ -131,13 +133,16 @@ export default function DetailPage() {
 
                 <View className="px-4 pt-4">
                     {activeTab === "synopsis" && (
-                        <Text className="font-inter text-sm leading-6 text-ink">
-                            {manga.synopsis ?? "Aucun résumé disponible."}
-                        </Text>
+                        <View>
+                            <Text className="font-inter text-xs leading-[15px] text-ink">
+                                {manga.synopsis ?? "Aucun résumé disponible."}
+                            </Text>
+                            <Illustrations pictures={pictures} />
+                        </View>
                     )}
 
                     {activeTab === "background" && (
-                        <Text className="font-inter text-sm leading-6 text-ink">
+                        <Text className="font-inter text-xs leading-[15px] text-ink">
                             {manga.background || "Aucune information de contexte."}
                         </Text>
                     )}
