@@ -1,7 +1,7 @@
 import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserType} from "@/type/user/userType";
-import {getUser} from "@/api/user/userStorage";
+import {getUser, updateStoredUser} from "@/api/user/userStorage";
 import {AuthContextType} from "@/type/auth/authContextType";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,20 +36,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const login = async (email: string, password: string) => {
         try {
             const user = await getUser(email, password);
+            if (!user) return false;
+
             const token = `fake-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-            if (user) {
+            await Promise.all([
+                AsyncStorage.setItem('authToken', token),
+                AsyncStorage.setItem('user', JSON.stringify(user)),
+            ]);
 
-                await Promise.all([
-                    AsyncStorage.setItem('authToken', token),
-                    AsyncStorage.setItem('user', JSON.stringify(user)),
-                ]);
-
-                setToken(token);
-                setUser(user);
-                return true;
-            }
-            return false;
+            setToken(token);
+            setUser(user);
+            return true;
         } catch {
             return false;
         }
@@ -64,9 +62,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
     };
 
+    const updateUser = async (changes: Partial<UserType>) => {
+        if (!user) return;
+        const updated = {...user, ...changes};
+
+        await updateStoredUser(user.email, changes);
+        await AsyncStorage.setItem('user', JSON.stringify(updated));
+        setUser(updated);
+    };
+
     return (
         <AuthContext.Provider
-            value={{ user, token, isAuthenticated, loading, login, logout }}
+            value={{ user, token, isAuthenticated, loading, login, logout, updateUser }}
         >
             {children}
         </AuthContext.Provider>
@@ -78,4 +85,3 @@ export const useAuth = () => {
     if (!ctx) throw new Error('useAuth must be used inside AuthProvider');
     return ctx;
 };
-
