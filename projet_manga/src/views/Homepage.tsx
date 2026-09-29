@@ -1,6 +1,7 @@
 import {Text, View} from "react-native";
 import {Filters} from "@/enums/type/filtersType";
-import {useEffect, useState} from "react";
+import {useCallback, useState} from "react";
+import {useFocusEffect} from "expo-router";
 import MangaList from "@/views/MangaList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CategoryButtons from "@/components/CategoryButtons";
@@ -8,14 +9,14 @@ import CategoryButtons from "@/components/CategoryButtons";
 export default function Homepage () {
     const [filters, setFilters] = useState<Filters | null>(null);
 
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         AsyncStorage.getItem("filters")
             .then((stored) => {
                 if (stored) setFilters(JSON.parse(stored));
             }).catch((error) => {
             console.log(error)
         })
-    }, [])
+    }, []))
 
     const handleSubmit = async (newFilters: Filters) => {
         setFilters(newFilters);

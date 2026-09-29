@@ -45,7 +45,7 @@ export default function EditFiltersForm() {
             <Text className="font-inter-semibold text-base text-ink">Mes filtres</Text>
 
             <Text className="mt-4 font-inter-semibold text-sm text-ink">Type</Text>
-            <View className="mt-2 flex-row flex-wrap">
+            <View className="mt-2 flex-row flex-wrap gap-2">
                 {types.map((item) => (
                     <Button
                         key={item.id}
@@ -57,7 +57,7 @@ export default function EditFiltersForm() {
             </View>
 
             <Text className="mt-4 font-inter-semibold text-sm text-ink">Catégories</Text>
-            <View className="mt-2 flex-row flex-wrap">
+            <View className="mt-2 flex-row flex-wrap gap-2">
                 {categories.map((item) => (
                     <Button
                         key={item.id}

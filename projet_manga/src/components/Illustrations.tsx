@@ -21,7 +21,7 @@ export default function Illustrations ({pictures}: IllustrationsProps) {
                     <Image
                         key={picture.jpg.image_url}
                         source={{uri: picture.jpg.image_url}}
-                        className="h-40 w-28 rounded"
+                        className="aspect-[2/3] w-40 rounded"
                         resizeMode="cover"
                     />
                 ))}

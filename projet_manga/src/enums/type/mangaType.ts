@@ -1,4 +1,5 @@
 export type MangaType = {
+    mal_id: number,
     images: {
         jpg: {
             image_url: string,

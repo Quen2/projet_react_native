@@ -4,10 +4,10 @@ import {MangaPictureType} from "@/enums/type/mangaPictureType";
 
 const URL = "https://api.tenrai.org/v1/manga"
 
-export const getMangaList = async (filters: Filters) => {
+export const getMangaList = async (filters: Filters, page = 1) => {
     const {categories, type} = filters;
 
-    const params = new URLSearchParams();
+    const params = new URLSearchParams({page: String(page)});
     if (type) params.set("type", type);
     if (categories.length) params.set("genres", categories.join(","));
 
