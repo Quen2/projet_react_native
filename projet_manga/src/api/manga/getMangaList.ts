@@ -1,4 +1,5 @@
 import {Filters} from "@/enums/type/filtersType";
+import {MangaType} from "@/enums/type/mangaType";
 
 const URL = "https://api.tenrai.org/v1/manga"
 
@@ -22,3 +23,17 @@ export const getMangaList = async (filters: Filters) => {
         return null;
     }
 };
+
+export const getManga = async (id: string | string[]): Promise<MangaType | null> => {
+    const params = new URLSearchParams();
+
+    try {
+        const response = await fetch (`${URL}/${id}`);
+
+        const json = await response.json();
+        return json.data
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
