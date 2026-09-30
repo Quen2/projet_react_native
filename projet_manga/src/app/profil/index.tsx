@@ -6,6 +6,7 @@ import {useAuth} from "@/context/AuthContext";
 import UpdateUser from "@/views/UpdateUser";
 import EditInfosForm from "@/components/EditFiltersForm";
 import TabBar from "@/components/TabBar";
+import FavoritesList from "@/components/FavoritesList";
 
 type View_ = "profile" | "users";
 
@@ -116,6 +117,8 @@ export default function ProfilPage() {
                     >
                         <Text className="font-inter-medium text-base text-white">Se déconnecter</Text>
                     </Pressable>
+
+                    <FavoritesList />
                 </View>
             </ScrollView>
             <TabBar />
