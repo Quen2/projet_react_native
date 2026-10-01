@@ -7,6 +7,9 @@ import UpdateUser from "@/views/UpdateUser";
 import EditInfosForm from "@/components/EditFiltersForm";
 import TabBar from "@/components/TabBar";
 import FavoritesList from "@/components/FavoritesList";
+import SectionTitle from "@/components/SectionTitle";
+import ActionButton from "@/components/ActionButton";
+import Halftone from "@/components/Halftone";
 
 type View_ = "profile" | "users";
 
@@ -30,20 +33,19 @@ export default function ProfilPage() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             className="flex-1 bg-background"
         >
-            <View className="bg-white" style={{height: insets.top}} />
+            <View className="bg-deep" style={{height: insets.top}} />
+            <Halftone />
 
             <ScrollView
                 contentContainerClassName="flex-grow px-6 py-6"
                 keyboardShouldPersistTaps="handled"
             >
                 <View className="w-full max-w-md flex-grow self-center">
-                    <Text className="font-inter-semibold text-[28px] leading-[34px] text-ink">
-                        Profil
-                    </Text>
+                    <SectionTitle title="Profil" large />
 
-                    <View className="mt-6 flex-row items-center rounded-lg border-[0.5px] border-outline bg-white p-4">
-                        <View className="h-12 w-12 items-center justify-center rounded-full bg-primary">
-                            <Text className="font-inter-semibold text-lg text-white">
+                    <View className="mt-8 flex-row items-center bg-surface p-4">
+                        <View className="h-12 w-12 -rotate-6 items-center justify-center bg-accent">
+                            <Text className="font-bungee text-lg text-night">
                                 {user.username.charAt(0).toUpperCase()}
                             </Text>
                         </View>
@@ -54,19 +56,19 @@ export default function ProfilPage() {
                                     {user.username}
                                 </Text>
                                 {isAdmin ? (
-                                    <View className="ml-2 rounded border-[0.5px] border-primary px-1.5 py-0.5">
-                                        <Text className="font-inter-medium text-xs text-primary">Admin</Text>
+                                    <View className="rotate-3 bg-accent px-1.5">
+                                        <Text className="font-bungee text-[10px] text-night">Admin</Text>
                                     </View>
                                 ) : null}
                             </View>
-                            <Text className="mt-0.5 font-inter text-xs text-ink" numberOfLines={1}>
+                            <Text className="mt-0.5 font-inter text-xs text-outline" numberOfLines={1}>
                                 {user.email}
                             </Text>
                         </View>
                     </View>
 
                     {isAdmin ? (
-                        <View className="mt-6 h-10 flex-row rounded-lg border-[0.5px] border-outline bg-white p-1">
+                        <View className="mt-8 h-11 flex-row bg-deep">
                             {([
                                 {key: "profile", label: "Mon profil"},
                                 {key: "users", label: "Utilisateurs"},
@@ -76,13 +78,13 @@ export default function ProfilPage() {
                                     <Pressable
                                         key={option.key}
                                         onPress={() => setCurrentView(option.key)}
-                                        className={`flex-1 items-center justify-center rounded-md ${
-                                            active ? "bg-primary" : ""
+                                        className={`flex-1 items-center justify-center ${
+                                            active ? "bg-accent" : ""
                                         }`}
                                     >
                                         <Text
-                                            className={`font-inter-medium text-sm ${
-                                                active ? "text-white" : "text-ink"
+                                            className={`font-bungee text-xs ${
+                                                active ? "text-night" : "text-ink"
                                             }`}
                                         >
                                             {option.label}
@@ -93,14 +95,12 @@ export default function ProfilPage() {
                         </View>
                     ) : null}
 
-                    <View className="mt-6 flex-1">
-                        <Text className="font-inter-semibold text-sm text-ink">
-                            {showUsers ? "Gestion des utilisateurs" : "Mes informations"}
-                        </Text>
+                    <View className="mt-8 flex-1">
+                        <SectionTitle title={showUsers ? "Gestion des utilisateurs" : "Mes informations"} />
 
-                        <View className="mt-2 bg-white p-4">
+                        <View className="mt-4 bg-surface p-4">
                             {showUsers ? (
-                                <Text className="font-inter text-xs text-ink">Je modifie les utilisateurs</Text>
+                                <Text className="font-inter text-sm text-ink">Je modifie les utilisateurs</Text>
                             ) : (
                                 <View>
                                     <UpdateUser />
@@ -110,13 +110,9 @@ export default function ProfilPage() {
                         </View>
                     </View>
 
-                    <Pressable
-                        onPress={handleLogout}
-                        className="mt-8 h-10 items-center justify-center rounded-lg bg-primary px-4 active:opacity-80"
-                        style={{boxShadow: "0px 2px 8px rgba(24, 28, 20, 0.1)"}}
-                    >
-                        <Text className="font-inter-medium text-base text-white">Se déconnecter</Text>
-                    </Pressable>
+                    <View className="mt-10">
+                        <ActionButton label="Se déconnecter" onPress={handleLogout} />
+                    </View>
 
                     <FavoritesList />
                 </View>

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "projet_manga",
+    "name": "Steel Ball App",
     "slug": "projet_manga",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,7 +12,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#F8F8F8",
+        "backgroundColor": "#D90B1C",
         "foregroundImage": "./assets/images/android-icon-foreground.png"
       },
       "predictiveBackGestureEnabled": false
@@ -33,7 +33,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#F8F8F8",
+          "backgroundColor": "#D90B1C",
           "image": "./assets/images/splash.png",
           "imageWidth": 200
         }

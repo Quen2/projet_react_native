@@ -1,6 +1,7 @@
-import {Pressable, Text, TextInput, View} from "react-native";
+import {Text, TextInput, View} from "react-native";
 import {useState} from "react";
 import {useAuth} from "@/context/AuthContext";
+import ActionButton from "@/components/ActionButton";
 
 export default function EditInfosForm() {
     const {user, updateUser} = useAuth();
@@ -21,7 +22,7 @@ export default function EditInfosForm() {
 
     return (
         <View>
-            <Text className="mt-4 font-inter-semibold text-sm text-ink">Nom d'utilisateur</Text>
+            <Text className="font-inter-semibold text-sm text-ink">Nom d'utilisateur</Text>
             <TextInput
                 value={username}
                 onChangeText={(text) => {
@@ -30,29 +31,20 @@ export default function EditInfosForm() {
                 }}
                 placeholder="Entrez votre nom d'utilisateur...."
                 autoCapitalize="none"
-                className="mt-2 h-12 rounded border-[0.5px] border-outline bg-white px-2 font-inter text-xs text-ink placeholder:text-outline"
+                className="mt-2 h-12 border-b-[3px] border-ink bg-deep px-3 font-inter text-sm text-ink placeholder:text-outline"
             />
 
             {message ? (
                 <Text
-                    className={`mt-2 font-inter text-xs ${
-                        message.error ? "text-red-700" : "text-primary"
-                    }`}
+                    className="mt-3 self-start bg-accent px-2 py-1 font-inter-semibold text-xs text-night"
                 >
-                    {message.error ? "*" : ""}{message.text}
+                    {message.text}
                 </Text>
             ) : null}
 
-            <Pressable
-                onPress={handleSubmit}
-                disabled={!hasChanged}
-                className={`mt-5 h-10 items-center justify-center rounded-lg bg-primary px-4 ${
-                    hasChanged ? "active:opacity-80" : "opacity-50"
-                }`}
-                style={{boxShadow: "0px 2px 8px rgba(24, 28, 20, 0.1)"}}
-            >
-                <Text className="font-inter-medium text-base text-white">Modifier mes informations</Text>
-            </Pressable>
+            <View className="mt-5">
+                <ActionButton label="Modifier mes informations" onPress={handleSubmit} disabled={!hasChanged} />
+            </View>
         </View>
     );
 }

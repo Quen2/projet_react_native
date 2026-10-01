@@ -4,6 +4,7 @@ import {Ionicons} from "@expo/vector-icons";
 import {releaseData} from "@/mock/release/releaseData";
 import {addReleaseToCalendar} from "@/api/calendar/addReleaseToCalendar";
 import {ReleaseType} from "@/type/release/releaseType";
+import {palette, tilt} from "@/theme/palette";
 
 const WEEK_DAYS = ["L", "M", "M", "J", "V", "S", "D"];
 
@@ -47,20 +48,20 @@ export default function ReleaseCalendar () {
     }
 
     return (
-        <View className="mx-6 mt-6 rounded-lg bg-white p-4">
+        <View className="mx-6 mt-4 bg-surface p-4">
             <View className="flex-row items-center justify-between">
-                <Pressable onPress={() => changeMonth(-1)} hitSlop={10}>
-                    <Text className="font-inter-semibold text-base text-primary">‹</Text>
+                <Pressable onPress={() => changeMonth(-1)} hitSlop={10} className="h-9 w-9 items-center justify-center bg-deep">
+                    <Text className="font-bungee text-base text-ink">‹</Text>
                 </Pressable>
-                <Text className="font-inter-semibold text-base capitalize text-ink">{monthLabel}</Text>
-                <Pressable onPress={() => changeMonth(1)} hitSlop={10}>
-                    <Text className="font-inter-semibold text-base text-primary">›</Text>
+                <Text className="font-bungee text-base text-ink">{monthLabel}</Text>
+                <Pressable onPress={() => changeMonth(1)} hitSlop={10} className="h-9 w-9 items-center justify-center bg-deep">
+                    <Text className="font-bungee text-base text-ink">›</Text>
                 </Pressable>
             </View>
 
-            <View className="mt-3 flex-row flex-wrap">
+            <View className="mt-4 flex-row flex-wrap">
                 {WEEK_DAYS.map((weekDay, index) => (
-                    <Text key={index} className="w-[14.28%] text-center font-inter text-xs text-outline">
+                    <Text key={index} className="w-[14.28%] text-center font-inter-semibold text-xs text-outline">
                         {weekDay}
                     </Text>
                 ))}
@@ -78,21 +79,24 @@ export default function ReleaseCalendar () {
                             onPress={() => selectDate(dateKey)}
                             className="h-10 w-[14.28%] items-center justify-center"
                         >
-                            <View className={`h-8 w-8 items-center justify-center rounded-full ${selected ? "bg-primary" : ""}`}>
-                                <Text className={`font-inter text-sm ${selected ? "text-white" : "text-ink"}`}>{day}</Text>
+                            <View
+                                className={`h-8 w-8 items-center justify-center ${selected ? "bg-accent" : ""}`}
+                                style={selected ? tilt : undefined}
+                            >
+                                <Text className={`font-inter-semibold text-sm ${selected ? "text-night" : "text-ink"}`}>{day}</Text>
                             </View>
-                            {hasRelease && !selected ? <View className="absolute bottom-0.5 h-1 w-1 rounded-full bg-primary" /> : null}
+                            {hasRelease && !selected ? <View className="absolute bottom-0 h-1 w-4 bg-ink" /> : null}
                         </Pressable>
                     );
                 })}
             </View>
 
-            <View className="mt-3 border-t-[0.5px] border-outline pt-3">
+            <View className="mt-4 border-t-[3px] border-deep pt-3">
                 {selectedReleases.length ? (
                     selectedReleases.map((release) => (
                         <View key={release.title} className="flex-row items-center justify-between py-1">
                             <Text className="flex-1 font-inter text-sm text-ink">
-                                {release.title} <Text className="font-inter-semibold text-primary">Tome {release.volume}</Text>
+                                {release.title} <Text className="font-inter-semibold text-accent">Tome {release.volume}</Text>
                             </Text>
                             <Pressable
                                 onPress={() => addToCalendar(release)}
@@ -101,13 +105,13 @@ export default function ReleaseCalendar () {
                                 accessibilityLabel={`Ajouter ${release.title} à mon agenda`}
                                 className="ml-3 flex-row items-center active:opacity-80"
                             >
-                                <Ionicons name="calendar-outline" size={16} color="#6F6557" />
-                                <Text className="ml-1 font-inter-medium text-xs text-primary">Ajouter à mon agenda</Text>
+                                <Ionicons name="calendar-outline" size={16} color={palette.ink} />
+                                <Text className="ml-1 font-inter-semibold text-xs text-ink underline">Ajouter à mon agenda</Text>
                             </Pressable>
                         </View>
                     ))
                 ) : (
-                    <Text className="font-inter-light text-sm text-ink">Aucune sortie ce jour</Text>
+                    <Text className="font-inter text-sm text-outline">Aucune sortie ce jour</Text>
                 )}
                 {message ? <Text className="mt-2 font-inter text-xs text-ink">{message}</Text> : null}
             </View>
