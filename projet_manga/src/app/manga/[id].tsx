@@ -60,7 +60,7 @@ export default function DetailPage() {
         <View className="flex-1 bg-background" style={{paddingTop: insets.top}}>
             <ScrollView contentContainerStyle={{paddingBottom: 120}}>
                 <View className="flex-row items-center px-4 pt-5">
-                    <Pressable onPress={() => router.back()} hitSlop={10} className="mr-3">
+                    <Pressable onPress={() => router.push("/")} hitSlop={10} className="mr-3">
                         <Ionicons name="chevron-back" size={24} color="#141A26" />
                     </Pressable>
                     <Text className="flex-1 font-inter-semibold text-sm leading-[17px] text-ink" numberOfLines={2}>
