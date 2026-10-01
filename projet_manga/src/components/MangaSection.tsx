@@ -7,6 +7,8 @@ import MangaCard from "@/components/MangaCard";
 import SectionTitle from "@/components/SectionTitle";
 import {palette} from "@/theme/palette";
 
+const PAGE_SIZE = 10;
+
 type MangaSectionProps = {
     title: string;
     filters: Filters;
@@ -52,7 +54,7 @@ export default function MangaSection ({title, filters}: MangaSectionProps) {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(manga) => String(manga.mal_id)}
-                renderItem={({item}) => <MangaCard manga={item} />}
+                renderItem={({item, index}) => <MangaCard manga={item} order={index % PAGE_SIZE} />}
                 onEndReached={loadNextPage}
                 onEndReachedThreshold={0.5}
                 className="mt-2"
