@@ -5,6 +5,7 @@ import {types} from "@/enums/type/TypeEnum";
 import {categories} from "@/enums/category/CategoryEnum";
 import Button from "@/components/Button";
 import { Filters} from "@/enums/type/filtersType";
+import {useTranslation} from "react-i18next";
 
 export default function CategoryButtons(props: {
     onSubmit: (filters: Filters) => void;
@@ -13,6 +14,7 @@ export default function CategoryButtons(props: {
     const [categoriesFilters, setCategoriesFilters] = useState<number[]>([]);
     const [typeFilter, setTypeFilter] = useState<string | null>(null);
     const insets = useSafeAreaInsets();
+    const {t} = useTranslation();
 
     const toggleCategory = (id: number) => {
         setCategoriesFilters((prev) =>
@@ -33,12 +35,12 @@ export default function CategoryButtons(props: {
             <View className="bg-white" style={{height: insets.top}} />
             <ScrollView contentContainerClassName="w-full max-w-md self-center px-6 pt-[76px] pb-6">
                 <Text className="font-inter-semibold text-xl leading-6 text-ink">
-                    Quels types de livres préférez-vous lire ?
+                    {t("buttons.title")}
                 </Text>
                 <Text className="mt-2 font-inter-light text-sm leading-[17px] text-ink">
-                    Choisissez au moins 1{" "}
-                    <Text className="font-inter-semibold text-primary">type de livre</Text>
-                    {" "}qui vous intéresse pour vos recommandations
+                    {t("buttons.select")}{" "}
+                    <Text className="font-inter-semibold text-primary">{t("buttons.type")}</Text>
+                    {" "} {t("buttons.reco")}
                 </Text>
                 <View className="mt-3 flex-row flex-wrap gap-2">
                     {types.map((item) => (
@@ -52,9 +54,9 @@ export default function CategoryButtons(props: {
                 </View>
 
                 <Text className="mt-4 font-inter-light text-sm leading-[17px] text-ink">
-                    Choisissez au moins 1{" "}
-                    <Text className="font-inter-semibold text-primary">genre</Text>
-                    {" "}qui vous intéresse pour vos recommandations
+                    {t("buttons.select")}{" "}
+                    <Text className="font-inter-semibold text-primary">{t("buttons.genre")}</Text>
+                    {" "} {t("buttons.reco")}
                 </Text>
                 <View className="mt-3 flex-row flex-wrap gap-2">
                     {categories.map((item) => (
@@ -72,7 +74,7 @@ export default function CategoryButtons(props: {
                     className="mt-6 h-10 items-center justify-center rounded-lg bg-primary px-4"
                     style={{boxShadow: "0px 2px 8px rgba(24, 28, 20, 0.1)"}}
                 >
-                    <Text className="font-inter-medium text-base text-white">Terminer</Text>
+                    <Text className="font-inter-medium text-base text-white">{t("buttons.submit")}</Text>
                 </Pressable>
             </ScrollView>
         </View>

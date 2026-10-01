@@ -1,0 +1,53 @@
+{
+  "auth": {
+    "signIn": "Connexion",
+    "email": "Nom d'utilisateur ou email",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "noAccount": "Pas de compte ?",
+    "signUp": "S'inscrire",
+    "wrongCredentials": "Mauvaise combinaison email/mot de passe",
+  },
+  "profile": {
+    "title": "Profil",
+    "myInfos": "Mes informations",
+    "logout": "Se déconnecter",
+    "welcome": "Bonjour {{name}} !"
+  },
+  "signUp": {
+    "title": "Créer un compte",
+    "username": "Nom d'utilisateur",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "submit": "S'inscrire",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?"
+  },
+  "buttons": {
+    "title": "Quels types de livres préférez-vous lire ?",
+    "select": "Choisissez au moins 1",
+    "type": "type de livre",
+    "genre": "genre",
+    "reco": "qui vous intéresse pour vos recommandations",
+    "submit": "Terminer"
+  },
+  "preferences": {
+    "title": "Mes préférences",
+    "type": "Type",
+    "categories": "Catégories",
+    "submit": "Enregistrer mes préférences"
+  },
+  "editInfo": {
+    "users": "Utilisateurs",
+    "admin": "Admin",
+    "me": "(vous)",
+    "update": "Modifier",
+    "cancel": "Annuler",
+    "submit": "Enregistrer"
+  },
+  "favorite": {
+    "list": "Ma liste",
+    "none": "Aucun manga dans ta liste pour le moment."
+  }
+
+}

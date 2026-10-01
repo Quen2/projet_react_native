@@ -4,6 +4,7 @@ import {use, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {createUser} from "@/api/user/userStorage";
 import {useAuth} from "@/context/AuthContext";
+import {useTranslation} from "react-i18next";
 
 type SignUpProps = {
     onSwitch: () => void;
@@ -17,6 +18,7 @@ export default function SignUp ({onSwitch}: SignUpProps) {
     const [errorMessage, setErrorMessage] = useState<string>("")
     const insets = useSafeAreaInsets();
     const { login } = useAuth();
+    const {t} = useTranslation();
 
     const submitUserCreation = async () => {
         try {
@@ -34,9 +36,9 @@ export default function SignUp ({onSwitch}: SignUpProps) {
             <ScrollView contentContainerClassName="flex-grow px-6 py-6" keyboardShouldPersistTaps="handled">
                 <View className="w-full max-w-md flex-grow self-center">
                     <View className="flex-1 justify-center">
-                        <Text className="font-inter-semibold text-2xl leading-[29px] text-ink">Créer un compte</Text>
+                        <Text className="font-inter-semibold text-2xl leading-[29px] text-ink">{t("signUp.title")}</Text>
 
-                        <Text className="mt-6 font-inter-semibold text-sm text-ink">Nom d'utilisateur</Text>
+                        <Text className="mt-6 font-inter-semibold text-sm text-ink">{t("signUp.username")}</Text>
                         <TextInput
                             placeholder="Entrez votre nom d'utilisateur...."
                             onChangeText={setUsername}
@@ -44,7 +46,7 @@ export default function SignUp ({onSwitch}: SignUpProps) {
                             className="mt-2 h-12 rounded border-[0.5px] border-outline bg-white px-2 font-inter text-xs text-ink placeholder:text-outline"
                         />
 
-                        <Text className="mt-3 font-inter-semibold text-sm text-ink">Email</Text>
+                        <Text className="mt-3 font-inter-semibold text-sm text-ink">{t("signUp.email")}</Text>
                         <TextInput
                             placeholder="Entrez votre email...."
                             onChangeText={setEmail}
@@ -53,7 +55,7 @@ export default function SignUp ({onSwitch}: SignUpProps) {
                             className="mt-2 h-12 rounded border-[0.5px] border-outline bg-white px-2 font-inter text-xs text-ink placeholder:text-outline"
                         />
 
-                        <Text className="mt-3 font-inter-semibold text-sm text-ink">Mot de passe</Text>
+                        <Text className="mt-3 font-inter-semibold text-sm text-ink">{t("signUp.password")}</Text>
                         <View className="mt-2 h-12 flex-row items-center rounded border-[0.5px] border-outline bg-white pl-2">
                             <TextInput
                                 placeholder="Entrez votre mot de passe...."
@@ -74,12 +76,12 @@ export default function SignUp ({onSwitch}: SignUpProps) {
                             className="mt-6 h-10 items-center justify-center rounded-lg bg-primary px-4"
                             style={{boxShadow: "0px 2px 8px rgba(24, 28, 20, 0.1)"}}
                         >
-                            <Text className="font-inter-medium text-base text-white">S'inscrire</Text>
+                            <Text className="font-inter-medium text-base text-white">{t("signUp.submit")}</Text>
                         </Pressable>
 
                         <Text className="mt-6 text-center font-inter text-sm text-ink">
-                            Déjà un compte ?{" "}
-                            <Text className="font-inter-semibold text-primary underline" onPress={onSwitch}>Se connecter</Text>
+                            {t("signUp.alreadyHaveAccount")} {" "}
+                            <Text className="font-inter-semibold text-primary underline" onPress={onSwitch}>{t("auth.submit")}</Text>
                         </Text>
                     </View>
                 </View>

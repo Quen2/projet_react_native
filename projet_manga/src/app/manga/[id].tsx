@@ -8,8 +8,10 @@ import {MangaPictureType} from "@/enums/type/mangaPictureType";
 import {getManga, getMangaPictures} from "@/api/manga/getMangaList";
 import Illustrations from "@/components/Illustrations";
 import {useFavorites} from "@/context/FavoritesContext";
+import {useTranslation} from "react-i18next";
 
 type Tab = "synopsis" | "background" | "infos";
+const {t} = useTranslation();
 
 const TABS: {key: Tab; label: string}[] = [
     {key: "synopsis", label: "Résumé"},
@@ -84,7 +86,7 @@ export default function DetailPage() {
                         <InfoRow label="Type" value={manga.type} />
 
                         <View className="mb-1.5">
-                            <Text className="font-inter text-xs leading-[15px] text-ink/70">Genre</Text>
+                            <Text className="font-inter text-xs leading-[15px] text-ink/70">{t("buttons.genre")}</Text>
                             <View className="flex-row flex-wrap">
                                 {genres.map((genre, index) => (
                                     <Text

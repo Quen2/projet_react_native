@@ -7,6 +7,7 @@ import { useState } from "react";
 import {AuthProvider} from "@/context/AuthContext";
 import {FavoritesProvider} from "@/context/FavoritesContext";
 import AnimatedSplash from "@/components/AnimatedSplash";
+import "@/i18n";
 
 SplashScreen.preventAutoHideAsync();
 

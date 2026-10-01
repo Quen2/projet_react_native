@@ -8,6 +8,7 @@ import EditInfosForm from "@/components/EditFiltersForm";
 import TabBar from "@/components/TabBar";
 import FavoritesList from "@/components/FavoritesList";
 import AdminUsersForm from "@/components/EditInfosForm";
+import {useTranslation} from "react-i18next";
 
 type View_ = "profile" | "users";
 
@@ -15,6 +16,7 @@ export default function ProfilPage() {
     const {user, logout} = useAuth();
     const insets = useSafeAreaInsets();
     const [currentView, setCurrentView] = useState<View_>("profile");
+    const {t} = useTranslation();
 
     if (!user) return null;
 
@@ -39,7 +41,7 @@ export default function ProfilPage() {
             >
                 <View className="w-full max-w-md flex-grow self-center">
                     <Text className="font-inter-semibold text-[28px] leading-[34px] text-ink">
-                        Profil
+                        {t("profil.title")}
                     </Text>
 
                     <View className="mt-6 flex-row items-center rounded-lg border-[0.5px] border-outline bg-white p-4">
@@ -56,7 +58,7 @@ export default function ProfilPage() {
                                 </Text>
                                 {isAdmin ? (
                                     <View className="ml-2 rounded border-[0.5px] border-primary px-1.5 py-0.5">
-                                        <Text className="font-inter-medium text-xs text-primary">Admin</Text>
+                                        <Text className="font-inter-medium text-xs text-primary">{t("editInfo.admin")}</Text>
                                     </View>
                                 ) : null}
                             </View>
@@ -116,7 +118,7 @@ export default function ProfilPage() {
                         className="mt-8 h-10 items-center justify-center rounded-lg bg-primary px-4 active:opacity-80"
                         style={{boxShadow: "0px 2px 8px rgba(24, 28, 20, 0.1)"}}
                     >
-                        <Text className="font-inter-medium text-base text-white">Se déconnecter</Text>
+                        <Text className="font-inter-medium text-base text-white">{t("profile.logout")}</Text>
                     </Pressable>
 
                     <FavoritesList />

@@ -2,6 +2,7 @@ import {Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, Text
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useState} from "react";
 import {useAuth} from "@/context/AuthContext";
+import {useTranslation} from "react-i18next";
 
 type SignInProps = {
     onSwitch: () => void;
@@ -14,6 +15,7 @@ export default function SignIn ({onSwitch}: SignInProps) {
     const [hidden, setHidden] = useState<boolean>(true);
     const insets = useSafeAreaInsets();
     const { login } = useAuth();
+    const {t} = useTranslation();
 
     const logUser = async () => {
         const success = await login(email, password);
@@ -29,9 +31,9 @@ export default function SignIn ({onSwitch}: SignInProps) {
             <ScrollView contentContainerClassName="flex-grow px-6 py-6" keyboardShouldPersistTaps="handled">
                 <View className="w-full max-w-md flex-grow self-center">
                     <View className="flex-1 justify-center">
-                        <Text className="font-inter-semibold text-[28px] leading-[34px] text-ink">Connexion</Text>
+                        <Text className="font-inter-semibold text-[28px] leading-[34px] text-ink">{t("auth.signIn")}</Text>
 
-                        <Text className="mt-6 font-inter-semibold text-sm text-ink">Nom d'utilisateur ou email</Text>
+                        <Text className="mt-6 font-inter-semibold text-sm text-ink">{t("auth.email")}</Text>
                         <TextInput
                             placeholder="Entrez votre nom d'utilisateur ou email...."
                             onChangeText={setEmail}
@@ -40,7 +42,7 @@ export default function SignIn ({onSwitch}: SignInProps) {
                             className="mt-2 h-12 rounded border-[0.5px] border-outline bg-white px-2 font-inter text-xs text-ink placeholder:text-outline"
                         />
 
-                        <Text className="mt-3 font-inter-semibold text-sm text-ink">Mot de passe</Text>
+                        <Text className="mt-3 font-inter-semibold text-sm text-ink">{t("auth.password")}</Text>
                         <View className="mt-2 h-12 flex-row items-center rounded border-[0.5px] border-outline bg-white pl-2">
                             <TextInput
                                 placeholder="Entrez votre mot de passe...."
@@ -65,12 +67,12 @@ export default function SignIn ({onSwitch}: SignInProps) {
                             className="mt-5 h-10 items-center justify-center rounded-lg bg-primary px-4"
                             style={{boxShadow: "0px 2px 8px rgba(24, 28, 20, 0.1)"}}
                         >
-                            <Text className="font-inter-medium text-base text-white">Se connecter</Text>
+                            <Text className="font-inter-medium text-base text-white">{t("auth.submit")}</Text>
                         </Pressable>
 
                         <Text className="mt-6 text-center font-inter text-sm text-ink">
-                            Pas de compte ?{" "}
-                            <Text className="font-inter-semibold text-primary underline" onPress={onSwitch}>S'inscrire</Text>
+                            {t("auth.noAccount")}{" "}
+                            <Text className="font-inter-semibold text-primary underline" onPress={onSwitch}>{t("auth.signUp")}</Text>
                         </Text>
                     </View>
                 </View>
