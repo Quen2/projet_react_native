@@ -19,7 +19,7 @@ export default function MangaCard ({manga}: MangaCardProps) {
                     className="h-44 w-32 rounded-md"
                     resizeMode="cover"
                 />
-                <Text className="absolute right-0 top-0 rounded-tr-md bg-primary px-1.5 py-0.5 font-inter text-[10px] text-white">
+                <Text className="absolute right-0 top-0 rounded-tr-md bg-primary px-1.5 py-0.5 font-inter text-xs text-white">
                     {manga.type}
                 </Text>
             </View>

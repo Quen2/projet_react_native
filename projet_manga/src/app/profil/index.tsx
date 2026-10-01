@@ -55,7 +55,7 @@ export default function ProfilPage() {
                                 </Text>
                                 {isAdmin ? (
                                     <View className="ml-2 rounded border-[0.5px] border-primary px-1.5 py-0.5">
-                                        <Text className="font-inter-medium text-[10px] text-primary">Admin</Text>
+                                        <Text className="font-inter-medium text-xs text-primary">Admin</Text>
                                     </View>
                                 ) : null}
                             </View>

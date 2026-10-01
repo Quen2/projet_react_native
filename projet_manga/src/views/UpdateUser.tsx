@@ -35,8 +35,8 @@ export default function EditInfosForm() {
 
             {message ? (
                 <Text
-                    className={`mt-2 font-inter-light text-[10px] ${
-                        message.error ? "text-red-500" : "text-primary"
+                    className={`mt-2 font-inter text-xs ${
+                        message.error ? "text-red-700" : "text-primary"
                     }`}
                 >
                     {message.error ? "*" : ""}{message.text}

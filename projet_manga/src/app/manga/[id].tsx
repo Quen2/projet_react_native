@@ -27,7 +27,7 @@ const formatDate = (iso: string | null) =>
 function InfoRow({label, value}: {label: string; value: string}) {
     return (
         <View className="mb-1.5">
-            <Text className="font-inter text-[11px] leading-[13px] text-ink/70">{label}</Text>
+            <Text className="font-inter text-xs leading-[15px] text-ink/70">{label}</Text>
             <Text className="font-inter-semibold text-xs leading-[15px] text-ink">{value}</Text>
         </View>
     );
@@ -84,7 +84,7 @@ export default function DetailPage() {
                         <InfoRow label="Type" value={manga.type} />
 
                         <View className="mb-1.5">
-                            <Text className="font-inter text-[11px] leading-[13px] text-ink/70">Genre</Text>
+                            <Text className="font-inter text-xs leading-[15px] text-ink/70">Genre</Text>
                             <View className="flex-row flex-wrap">
                                 {genres.map((genre, index) => (
                                     <Text

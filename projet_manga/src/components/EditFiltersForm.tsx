@@ -69,7 +69,7 @@ export default function EditFiltersForm() {
             </View>
 
             {message ? (
-                <Text className="mt-2 font-inter-light text-[10px] text-primary">{message}</Text>
+                <Text className="mt-2 font-inter text-xs text-primary">{message}</Text>
             ) : null}
 
             <Pressable
