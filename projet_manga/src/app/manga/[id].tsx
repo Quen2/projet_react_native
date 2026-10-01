@@ -11,7 +11,6 @@ import {useFavorites} from "@/context/FavoritesContext";
 import {useTranslation} from "react-i18next";
 
 type Tab = "synopsis" | "background" | "infos";
-const {t} = useTranslation();
 
 const TABS: {key: Tab; label: string}[] = [
     {key: "synopsis", label: "Résumé"},
@@ -42,6 +41,7 @@ export default function DetailPage() {
     const [pictures, setPictures] = useState<MangaPictureType[]>([]);
     const [activeTab, setActiveTab] = useState<Tab>("synopsis");
     const {isFavorite, toggleFavorite} = useFavorites();
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!id) return;
