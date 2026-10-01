@@ -7,6 +7,7 @@ import UpdateUser from "@/views/UpdateUser";
 import EditInfosForm from "@/components/EditFiltersForm";
 import TabBar from "@/components/TabBar";
 import FavoritesList from "@/components/FavoritesList";
+import AdminUsersForm from "@/components/EditInfosForm";
 
 type View_ = "profile" | "users";
 
@@ -100,7 +101,7 @@ export default function ProfilPage() {
 
                         <View className="mt-2 bg-white p-4">
                             {showUsers ? (
-                                <Text className="font-inter text-xs text-ink">Je modifie les utilisateurs</Text>
+                                <AdminUsersForm />
                             ) : (
                                 <View>
                                     <UpdateUser />

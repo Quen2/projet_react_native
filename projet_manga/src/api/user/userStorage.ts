@@ -44,3 +44,9 @@ export async function updateStoredUser(email: string, changes: Partial<UserType>
     const updated = users.map((u) => (u.email === email ? {...u, ...changes} : u));
     await AsyncStorage.setItem("users", JSON.stringify(updated));
 }
+
+export async function deleteStoredUser(email: string): Promise<void> {
+    const users = await getAllUsers();
+    const updated = users.filter((u) => u.email !== email);
+    await AsyncStorage.setItem("users", JSON.stringify(updated));
+}
