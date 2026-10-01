@@ -18,8 +18,8 @@ export default function FavoritesList() {
                 </Text>
             ) : (
                 <View className="mt-4 flex-row flex-wrap gap-4">
-                    {favorites.map((manga) => (
-                        <MangaCard key={manga.mal_id} manga={manga} />
+                    {favorites.map((manga, index) => (
+                        <MangaCard key={manga.mal_id} manga={manga} order={index} />
                     ))}
                 </View>
             )}

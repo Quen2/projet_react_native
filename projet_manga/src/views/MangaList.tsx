@@ -8,6 +8,7 @@ import Logo from "@/components/Logo";
 import Halftone from "@/components/Halftone";
 import SectionTitle from "@/components/SectionTitle";
 import Separator from "@/components/Separator";
+import StickIn from "@/components/StickIn";
 
 const NO_FILTERS: Filters = {categories: [], type: null};
 
@@ -32,7 +33,9 @@ export default function MangaList(props: {
                 <View className="mt-8 px-6">
                     <SectionTitle title="Sorties du mois" />
                 </View>
-                <ReleaseCalendar />
+                <StickIn order={2}>
+                    <ReleaseCalendar />
+                </StickIn>
             </ScrollView>
             <TabBar />
         </View>
