@@ -1,6 +1,8 @@
 import {Animated, Easing, View} from "react-native";
 import {useRef} from "react";
 import * as SplashScreen from "expo-splash-screen";
+import Logo from "@/components/Logo";
+import Halftone from "@/components/Halftone";
 
 type AnimatedSplashProps = {
     onFinish: () => void;
@@ -28,11 +30,15 @@ export default function AnimatedSplash ({onFinish}: AnimatedSplashProps) {
 
     return (
         <View className="flex-1 items-center justify-center bg-background">
+            <Halftone />
             <Animated.Image
                 source={require("@/assets/images/splash.png")}
                 onLoadEnd={startAnimation}
                 style={{width: 200, height: 200, transform: [{rotate}]}}
             />
+            <View className="mt-10">
+                <Logo />
+            </View>
         </View>
     )
 }

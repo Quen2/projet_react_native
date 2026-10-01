@@ -1,6 +1,11 @@
 :root {
-  --color-ink: #121926;
-  --color-background: #F8F8F8;
-  --color-outline: #667085;
-  --color-primary: #6F6557;
+  --color-background: #D90B1C;
+  --color-deep: #1A0406;
+  --color-surface: #9E0612;
+  --color-ink: #FFFFFF;
+  --color-night: #1A0406;
+  --color-shade: #1A0406;
+  --color-outline: #FFD0D3;
+  --color-primary: #FFFFFF;
+  --color-accent: #FFFFFF;
 }

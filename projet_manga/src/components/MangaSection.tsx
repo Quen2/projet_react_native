@@ -4,6 +4,10 @@ import {getMangaList} from "@/api/manga/getMangaList";
 import {Filters} from "@/enums/type/filtersType";
 import {MangaType} from "@/enums/type/mangaType";
 import MangaCard from "@/components/MangaCard";
+import SectionTitle from "@/components/SectionTitle";
+import {palette} from "@/theme/palette";
+
+const PAGE_SIZE = 10;
 
 type MangaSectionProps = {
     title: string;
@@ -41,23 +45,25 @@ export default function MangaSection ({title, filters}: MangaSectionProps) {
     }, []);
 
     return (
-        <View className="mt-6">
-            <Text className="px-6 font-inter-semibold text-base text-ink">{title}</Text>
+        <View className="mt-8">
+            <View className="px-6">
+                <SectionTitle title={title} />
+            </View>
             <FlatList
                 data={mangas}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(manga) => String(manga.mal_id)}
-                renderItem={({item}) => <MangaCard manga={item} />}
+                renderItem={({item, index}) => <MangaCard manga={item} order={index % PAGE_SIZE} />}
                 onEndReached={loadNextPage}
                 onEndReachedThreshold={0.5}
-                className="mt-3"
-                contentContainerClassName="gap-3 px-6"
+                className="mt-2"
+                contentContainerClassName="gap-5 px-6 py-2"
                 ListFooterComponent={
-                    hasNextPage ? <ActivityIndicator color="#6F6557" className="h-44 px-4" /> : null
+                    hasNextPage ? <ActivityIndicator color={palette.ink} className="h-44 px-4" /> : null
                 }
                 ListEmptyComponent={
-                    hasNextPage ? null : <Text className="font-inter-light text-sm text-ink">Aucun manga trouvé</Text>
+                    hasNextPage ? null : <Text className="font-inter text-sm text-ink">Aucun manga trouvé</Text>
                 }
             />
         </View>

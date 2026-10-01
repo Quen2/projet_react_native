@@ -1,45 +1,28 @@
-import {Image, Pressable, ScrollView, Text, View} from "react-native";
-import {router, useLocalSearchParams} from "expo-router";
-import {useEffect, useState} from "react";
+import {Animated, ScrollView, Text, View} from "react-native";
+import {useLocalSearchParams} from "expo-router";
+import {useEffect, useRef, useState} from "react";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {Ionicons} from "@expo/vector-icons";
+import {useReducedMotion} from "react-native-reanimated";
 import {MangaType} from "@/enums/type/mangaType";
 import {MangaPictureType} from "@/enums/type/mangaPictureType";
 import {getManga, getMangaPictures} from "@/api/manga/getMangaList";
-import Illustrations from "@/components/Illustrations";
 import {useFavorites} from "@/context/FavoritesContext";
-
-type Tab = "synopsis" | "background" | "infos";
-
-const TABS: {key: Tab; label: string}[] = [
-    {key: "synopsis", label: "Résumé"},
-    {key: "background", label: "Contexte"},
-    {key: "infos", label: "Infos"},
-];
+import Halftone from "@/components/Halftone";
+import SectionTitle from "@/components/SectionTitle";
+import DetailHero from "@/components/DetailHero";
+import DetailStats from "@/components/DetailStats";
+import DetailTabs from "@/components/DetailTabs";
 
 const formatName = (name: string) => name.split(", ").reverse().join(" ");
-
-const formatDate = (iso: string | null) =>
-    iso
-        ? new Date(iso).toLocaleDateString("fr-FR", {day: "numeric", month: "long", year: "numeric"})
-        : "Inconnue";
-
-function InfoRow({label, value}: {label: string; value: string}) {
-    return (
-        <View className="mb-1.5">
-            <Text className="font-inter text-xs leading-[15px] text-ink/70">{label}</Text>
-            <Text className="font-inter-semibold text-xs leading-[15px] text-ink">{value}</Text>
-        </View>
-    );
-}
 
 export default function DetailPage() {
     const {id} = useLocalSearchParams<{id: string}>();
     const insets = useSafeAreaInsets();
     const [manga, setManga] = useState<MangaType | null>(null);
     const [pictures, setPictures] = useState<MangaPictureType[]>([]);
-    const [activeTab, setActiveTab] = useState<Tab>("synopsis");
     const {isFavorite, toggleFavorite} = useFavorites();
+    const entrance = useRef(new Animated.Value(0)).current;
+    const reducedMotion = useReducedMotion();
 
     useEffect(() => {
         if (!id) return;
@@ -47,118 +30,64 @@ export default function DetailPage() {
         getMangaPictures(id).then(setPictures);
     }, [id]);
 
+    useEffect(() => {
+        if (!manga) return;
+
+        if (reducedMotion) {
+            entrance.setValue(1);
+            return;
+        }
+
+        Animated.spring(entrance, {toValue: 1, friction: 6, tension: 60, useNativeDriver: true}).start();
+    }, [manga]);
+
     if (!manga) {
         return <View className="flex-1 bg-background" />;
     }
 
-    const author = manga.authors[0] ? formatName(manga.authors[0].name) : "Inconnu";
-    const series = manga.serializations[0]?.name ?? "—";
-    const genres = [...manga.genres, ...manga.themes, ...manga.demographics].map((g) => g.name);
-    const favorite = isFavorite(manga.mal_id);
+    const author = manga.authors[0] ? formatName(manga.authors[0].name) : "Auteur inconnu";
+    const genres = [...manga.genres, ...manga.themes, ...manga.demographics].map((genre) => genre.name);
+
+    const bodyStyle = {
+        opacity: entrance.interpolate({inputRange: [0.5, 1], outputRange: [0, 1], extrapolate: "clamp"}),
+        transform: [
+            {translateY: entrance.interpolate({inputRange: [0.5, 1], outputRange: [30, 0], extrapolate: "clamp"})},
+        ],
+    };
 
     return (
         <View className="flex-1 bg-background" style={{paddingTop: insets.top}}>
+            <Halftone />
             <ScrollView contentContainerStyle={{paddingBottom: 120}}>
-                <View className="flex-row items-center px-4 pt-5">
-                    <Pressable onPress={() => router.push("/")} hitSlop={10} className="mr-3">
-                        <Ionicons name="chevron-back" size={24} color="#141A26" />
-                    </Pressable>
-                    <Text className="flex-1 font-inter-semibold text-sm leading-[17px] text-ink" numberOfLines={2}>
-                        {manga.title}
-                    </Text>
-                    <Pressable onPress={() => toggleFavorite(manga)} hitSlop={10} className="ml-3">
-                        <Ionicons name={favorite ? "star" : "star-outline"} size={24} color="#141A26" />
-                    </Pressable>
-                </View>
+                <DetailHero
+                    manga={manga}
+                    entrance={entrance}
+                    favorite={isFavorite(manga.mal_id)}
+                    onToggleFavorite={() => toggleFavorite(manga)}
+                />
 
-                <View className="mt-6 flex-row items-center gap-4 px-4">
-                    <Image
-                        source={{uri: manga.images.jpg.large_image_url}}
-                        className="aspect-[2/3] w-40 rounded"
-                        resizeMode="cover"
-                    />
-
-                    <View className="flex-1">
-                        <InfoRow label="Auteur" value={author} />
-                        <InfoRow label="Magazine" value={series} />
-                        <InfoRow label="Type" value={manga.type} />
-
-                        <View className="mb-1.5">
-                            <Text className="font-inter text-xs leading-[15px] text-ink/70">Genre</Text>
-                            <View className="flex-row flex-wrap">
-                                {genres.map((genre, index) => (
-                                    <Text
-                                        key={genre}
-                                        className={`font-inter-semibold text-xs leading-[15px] text-ink ${
-                                            index > 0 ? "border-l border-outline pl-1.5" : ""
-                                        } pr-1.5`}
-                                    >
-                                        {genre}
-                                    </Text>
-                                ))}
-                            </View>
+                <Animated.View style={bodyStyle}>
+                    <View className="mt-4 px-4">
+                        <SectionTitle title={manga.title} large />
+                        <View className="mt-2 flex-row items-center gap-3">
+                            <Text className="font-inter-semibold text-base text-ink">{author}</Text>
+                            <Text className="bg-accent px-2 py-0.5 font-bungee text-[10px] text-night">
+                                {manga.type}
+                            </Text>
                         </View>
 
-                        <InfoRow label="Sortie" value={formatDate(manga.published.from)} />
-
-                        <View className="flex-row items-end justify-between">
-                            <InfoRow
-                                label="Contenu"
-                                value={`${manga.chapters ?? "?"} chapitres · ${manga.volumes ?? "?"} vol.`}
-                            />
-                            <Ionicons name="information-circle-outline" size={16} color="#141A26" style={{marginBottom: 6}} />
+                        <View className="mt-4 flex-row flex-wrap gap-2">
+                            {genres.map((genre) => (
+                                <Text key={genre} className="bg-deep px-2 py-1 font-inter-semibold text-xs text-ink">
+                                    {genre}
+                                </Text>
+                            ))}
                         </View>
                     </View>
-                </View>
 
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    className="mt-6"
-                    contentContainerClassName="px-4 gap-6"
-                >
-                    {TABS.map((tab) => {
-                        const active = activeTab === tab.key;
-                        return (
-                            <Pressable
-                                key={tab.key}
-                                onPress={() => setActiveTab(tab.key)}
-                                className={`pb-1 ${active ? "border-b border-primary" : ""}`}
-                            >
-                                <Text className={`font-inter text-sm ${active ? "text-primary" : "text-ink"}`}>
-                                    {tab.label}
-                                </Text>
-                            </Pressable>
-                        );
-                    })}
-                </ScrollView>
-
-                <View className="px-4 pt-4">
-                    {activeTab === "synopsis" && (
-                        <View>
-                            <Text className="font-inter text-xs leading-[15px] text-ink">
-                                {manga.synopsis ?? "Aucun résumé disponible."}
-                            </Text>
-                            <Illustrations pictures={pictures} />
-                        </View>
-                    )}
-
-                    {activeTab === "background" && (
-                        <Text className="font-inter text-xs leading-[15px] text-ink">
-                            {manga.background || "Aucune information de contexte."}
-                        </Text>
-                    )}
-
-                    {activeTab === "infos" && (
-                        <View>
-                            <InfoRow label="Statut" value={manga.status} />
-                            <InfoRow label="Publication" value={manga.published.string} />
-                            <InfoRow label="Note" value={manga.score ? `${manga.score} / 10` : "—"} />
-                            <InfoRow label="Classement" value={manga.rank ? `#${manga.rank}` : "—"} />
-                            <InfoRow label="Membres" value={manga.members.toLocaleString("fr-FR")} />
-                        </View>
-                    )}
-                </View>
+                    <DetailStats manga={manga} />
+                    <DetailTabs manga={manga} pictures={pictures} />
+                </Animated.View>
             </ScrollView>
         </View>
     );

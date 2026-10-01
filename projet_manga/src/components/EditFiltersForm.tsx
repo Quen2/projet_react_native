@@ -1,10 +1,12 @@
-import {Pressable, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import {useEffect, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Button from "@/components/Button";
+import ActionButton from "@/components/ActionButton";
 import {types} from "@/enums/type/TypeEnum";
 import {categories} from "@/enums/category/CategoryEnum";
 import {Filters} from "@/enums/type/filtersType";
+import {useTranslation} from "react-i18next";
 
 const FILTERS_KEY = "filters";
 
@@ -12,6 +14,7 @@ export default function EditFiltersForm() {
     const [categoriesFilters, setCategoriesFilters] = useState<number[]>([]);
     const [typeFilter, setTypeFilter] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
+    const {t} = useTranslation();
 
     useEffect(() => {
         AsyncStorage.getItem(FILTERS_KEY).then((stored) => {
@@ -42,10 +45,10 @@ export default function EditFiltersForm() {
 
     return (
         <View>
-            <Text className="font-inter-semibold text-base text-ink">Mes filtres</Text>
+            <Text className="mt-10 font-bungee text-base text-ink">{t("preferences.title")}</Text>
 
-            <Text className="mt-4 font-inter-semibold text-sm text-ink">Type</Text>
-            <View className="mt-2 flex-row flex-wrap gap-2">
+            <Text className="mt-4 font-inter-semibold text-sm text-ink">{t("preferences.type")}</Text>
+            <View className="mt-3 flex-row flex-wrap gap-3">
                 {types.map((item) => (
                     <Button
                         key={item.id}
@@ -56,8 +59,8 @@ export default function EditFiltersForm() {
                 ))}
             </View>
 
-            <Text className="mt-4 font-inter-semibold text-sm text-ink">Catégories</Text>
-            <View className="mt-2 flex-row flex-wrap gap-2">
+            <Text className="mt-4 font-inter-semibold text-sm text-ink">{t("preferences.categories")}</Text>
+            <View className="mt-3 flex-row flex-wrap gap-3">
                 {categories.map((item) => (
                     <Button
                         key={item.id}
@@ -69,16 +72,12 @@ export default function EditFiltersForm() {
             </View>
 
             {message ? (
-                <Text className="mt-2 font-inter text-xs text-primary">{message}</Text>
+                <Text className="mt-3 self-start bg-accent px-2 py-1 font-inter-semibold text-xs text-night">{message}</Text>
             ) : null}
 
-            <Pressable
-                onPress={handleSubmit}
-                className="mt-5 h-10 items-center justify-center rounded-lg bg-primary px-4 active:opacity-80"
-                style={{boxShadow: "0px 2px 8px rgba(24, 28, 20, 0.1)"}}
-            >
-                <Text className="font-inter-medium text-base text-white">Enregistrer mes filtres</Text>
-            </Pressable>
+            <View className="mt-6">
+                <ActionButton label="Enregistrer mes filtres" onPress={handleSubmit} />
+            </View>
         </View>
     );
 }
