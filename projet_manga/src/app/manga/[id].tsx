@@ -7,6 +7,7 @@ import {MangaType} from "@/enums/type/mangaType";
 import {MangaPictureType} from "@/enums/type/mangaPictureType";
 import {getManga, getMangaPictures} from "@/api/manga/getMangaList";
 import Illustrations from "@/components/Illustrations";
+import {useFavorites} from "@/context/FavoritesContext";
 
 type Tab = "synopsis" | "background" | "infos";
 
@@ -38,7 +39,7 @@ export default function DetailPage() {
     const [manga, setManga] = useState<MangaType | null>(null);
     const [pictures, setPictures] = useState<MangaPictureType[]>([]);
     const [activeTab, setActiveTab] = useState<Tab>("synopsis");
-    const [favorite, setFavorite] = useState(false);
+    const {isFavorite, toggleFavorite} = useFavorites();
 
     useEffect(() => {
         if (!id) return;
@@ -53,6 +54,7 @@ export default function DetailPage() {
     const author = manga.authors[0] ? formatName(manga.authors[0].name) : "Inconnu";
     const series = manga.serializations[0]?.name ?? "—";
     const genres = [...manga.genres, ...manga.themes, ...manga.demographics].map((g) => g.name);
+    const favorite = isFavorite(manga.mal_id);
 
     return (
         <View className="flex-1 bg-background" style={{paddingTop: insets.top}}>
@@ -64,7 +66,7 @@ export default function DetailPage() {
                     <Text className="flex-1 font-inter-semibold text-sm leading-[17px] text-ink" numberOfLines={2}>
                         {manga.title}
                     </Text>
-                    <Pressable onPress={() => setFavorite(!favorite)} hitSlop={10} className="ml-3">
+                    <Pressable onPress={() => toggleFavorite(manga)} hitSlop={10} className="ml-3">
                         <Ionicons name={favorite ? "star" : "star-outline"} size={24} color="#141A26" />
                     </Pressable>
                 </View>
