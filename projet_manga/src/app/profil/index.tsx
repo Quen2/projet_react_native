@@ -41,7 +41,7 @@ export default function ProfilPage() {
             >
                 <View className="w-full max-w-md flex-grow self-center">
                     <Text className="font-inter-semibold text-[28px] leading-[34px] text-ink">
-                        {t("profil.title")}
+                        {t("profile.title")}
                     </Text>
 
                     <View className="mt-6 flex-row items-center rounded-lg border-[0.5px] border-outline bg-white p-4">
