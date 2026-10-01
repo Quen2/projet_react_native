@@ -8,6 +8,9 @@ import {MangaPictureType} from "@/enums/type/mangaPictureType";
 import {getManga, getMangaPictures} from "@/api/manga/getMangaList";
 import Illustrations from "@/components/Illustrations";
 import {useFavorites} from "@/context/FavoritesContext";
+import {palette, tilt} from "@/theme/palette";
+import Halftone from "@/components/Halftone";
+import {useTranslation} from "react-i18next";
 
 type Tab = "synopsis" | "background" | "infos";
 
@@ -26,9 +29,9 @@ const formatDate = (iso: string | null) =>
 
 function InfoRow({label, value}: {label: string; value: string}) {
     return (
-        <View className="mb-1.5">
-            <Text className="font-inter text-xs leading-[15px] text-ink/70">{label}</Text>
-            <Text className="font-inter-semibold text-xs leading-[15px] text-ink">{value}</Text>
+        <View className="mb-2">
+            <Text className="font-inter text-xs text-outline">{label}</Text>
+            <Text className="font-inter-semibold text-sm text-ink">{value}</Text>
         </View>
     );
 }
@@ -40,6 +43,7 @@ export default function DetailPage() {
     const [pictures, setPictures] = useState<MangaPictureType[]>([]);
     const [activeTab, setActiveTab] = useState<Tab>("synopsis");
     const {isFavorite, toggleFavorite} = useFavorites();
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!id) return;
@@ -58,40 +62,50 @@ export default function DetailPage() {
 
     return (
         <View className="flex-1 bg-background" style={{paddingTop: insets.top}}>
+            <Halftone />
             <ScrollView contentContainerStyle={{paddingBottom: 120}}>
                 <View className="flex-row items-center px-4 pt-5">
-                    <Pressable onPress={() => router.push("/")} hitSlop={10} className="mr-3">
-                        <Ionicons name="chevron-back" size={24} color="#141A26" />
+                    <Pressable
+                        onPress={() => router.push("/")}
+                        hitSlop={10}
+                        className="mr-4 h-10 w-10 items-center justify-center bg-deep"
+                    >
+                        <Ionicons name="chevron-back" size={24} color={palette.ink} />
                     </Pressable>
-                    <Text className="flex-1 font-inter-semibold text-sm leading-[17px] text-ink" numberOfLines={2}>
+                    <Text className="flex-1 font-bungee text-base text-ink" numberOfLines={2}>
                         {manga.title}
                     </Text>
-                    <Pressable onPress={() => toggleFavorite(manga)} hitSlop={10} className="ml-3">
-                        <Ionicons name={favorite ? "star" : "star-outline"} size={24} color="#141A26" />
+                    <Pressable
+                        onPress={() => toggleFavorite(manga)}
+                        hitSlop={10}
+                        className={`ml-4 h-10 w-10 items-center justify-center ${favorite ? "bg-accent" : "bg-deep"}`}
+                        style={favorite ? tilt : undefined}
+                    >
+                        <Ionicons name={favorite ? "star" : "star-outline"} size={24} color={favorite ? palette.night : palette.ink} />
                     </Pressable>
                 </View>
 
-                <View className="mt-6 flex-row items-center gap-4 px-4">
-                    <Image
-                        source={{uri: manga.images.jpg.large_image_url}}
-                        className="aspect-[2/3] w-40 rounded"
-                        resizeMode="cover"
-                    />
+                <View className="mt-8 flex-row items-center gap-5 px-4">
+                    <View className="w-40 -rotate-2 border-[3px] border-ink">
+                        <Image
+                            source={{uri: manga.images.jpg.large_image_url}}
+                            className="aspect-[2/3] w-full"
+                            resizeMode="cover"
+                        />
+                    </View>
 
                     <View className="flex-1">
                         <InfoRow label="Auteur" value={author} />
                         <InfoRow label="Magazine" value={series} />
                         <InfoRow label="Type" value={manga.type} />
 
-                        <View className="mb-1.5">
-                            <Text className="font-inter text-xs leading-[15px] text-ink/70">Genre</Text>
-                            <View className="flex-row flex-wrap">
+                        <View className="mb-2">
+                            <Text className="font-inter text-xs test-outline">{t("buttons.genre")}</Text>
+                            <View className="mt-1 flex-row flex-wrap gap-1">
                                 {genres.map((genre, index) => (
                                     <Text
                                         key={genre}
-                                        className={`font-inter-semibold text-xs leading-[15px] text-ink ${
-                                            index > 0 ? "border-l border-outline pl-1.5" : ""
-                                        } pr-1.5`}
+                                        className="bg-deep px-2 py-1 font-inter-semibold text-[11px] text-ink"
                                     >
                                         {genre}
                                     </Text>
@@ -106,7 +120,7 @@ export default function DetailPage() {
                                 label="Contenu"
                                 value={`${manga.chapters ?? "?"} chapitres · ${manga.volumes ?? "?"} vol.`}
                             />
-                            <Ionicons name="information-circle-outline" size={16} color="#141A26" style={{marginBottom: 6}} />
+                            <Ionicons name="information-circle-outline" size={16} color={palette.ink} style={{marginBottom: 6}} />
                         </View>
                     </View>
                 </View>
@@ -114,8 +128,8 @@ export default function DetailPage() {
                 <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    className="mt-6"
-                    contentContainerClassName="px-4 gap-6"
+                    className="mt-8"
+                    contentContainerClassName="gap-3 px-4 py-1"
                 >
                     {TABS.map((tab) => {
                         const active = activeTab === tab.key;
@@ -123,9 +137,10 @@ export default function DetailPage() {
                             <Pressable
                                 key={tab.key}
                                 onPress={() => setActiveTab(tab.key)}
-                                className={`pb-1 ${active ? "border-b border-primary" : ""}`}
+                                className={`px-3 py-2 ${active ? "bg-accent" : "bg-deep"}`}
+                                style={active ? tilt : undefined}
                             >
-                                <Text className={`font-inter text-sm ${active ? "text-primary" : "text-ink"}`}>
+                                <Text className={`font-bungee text-xs ${active ? "text-night" : "text-ink"}`}>
                                     {tab.label}
                                 </Text>
                             </Pressable>
@@ -133,10 +148,10 @@ export default function DetailPage() {
                     })}
                 </ScrollView>
 
-                <View className="px-4 pt-4">
+                <View className="mx-4 mt-4 bg-surface p-4">
                     {activeTab === "synopsis" && (
                         <View>
-                            <Text className="font-inter text-xs leading-[15px] text-ink">
+                            <Text className="font-inter text-sm leading-6 text-ink">
                                 {manga.synopsis ?? "Aucun résumé disponible."}
                             </Text>
                             <Illustrations pictures={pictures} />
@@ -144,7 +159,7 @@ export default function DetailPage() {
                     )}
 
                     {activeTab === "background" && (
-                        <Text className="font-inter text-xs leading-[15px] text-ink">
+                        <Text className="font-inter text-sm leading-6 text-ink">
                             {manga.background || "Aucune information de contexte."}
                         </Text>
                     )}

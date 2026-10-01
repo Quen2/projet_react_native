@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {UserType} from "@/type/user/userType";
 import {useAuth} from "@/context/AuthContext";
 import {createUser, deleteStoredUser, getAllUsers, updateStoredUser} from "@/api/user/userStorage";
+import {useTranslation} from "react-i18next";
 
 const INPUT_CLASS =
     "h-12 rounded border-[0.5px] border-outline bg-white px-2 font-inter text-xs text-ink placeholder:text-outline";
@@ -20,6 +21,7 @@ export default function AdminUsersForm() {
     const [newUsername, setNewUsername] = useState("");
     const [newEmail, setNewEmail] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const {t} = useTranslation();
 
     const loadUsers = async () => setUsers(await getAllUsers());
 
@@ -82,7 +84,7 @@ export default function AdminUsersForm() {
 
     return (
         <View>
-            <Text className="font-inter-semibold text-base text-ink">Utilisateurs ({users.length})</Text>
+            <Text className="font-inter-semibold text-base text-ink">{t("editInfo.users")} ({users.length})</Text>
 
             {message ? (
                 <Text
@@ -109,11 +111,11 @@ export default function AdminUsersForm() {
                                         <Text className="font-inter-semibold text-sm text-ink">{u.username}</Text>
                                         {u.role === "admin" ? (
                                             <View className="ml-2 rounded border-[0.5px] border-primary px-1.5 py-0.5">
-                                                <Text className="font-inter-medium text-[10px] text-primary">Admin</Text>
+                                                <Text className="font-inter-medium text-[10px] text-primary">{t("editInfo.admin")}</Text>
                                             </View>
                                         ) : null}
                                         {isMe ? (
-                                            <Text className="ml-2 font-inter-light text-[10px] text-ink">(vous)</Text>
+                                            <Text className="ml-2 font-inter-light text-[10px] text-ink">{t("editInfo.me")}</Text>
                                         ) : null}
                                     </View>
                                     <Text className="mt-0.5 font-inter text-xs text-ink">{u.email}</Text>
@@ -122,7 +124,7 @@ export default function AdminUsersForm() {
                                 {!isEditing ? (
                                     <View className="flex-row gap-3">
                                         <Pressable onPress={() => startEdit(u)} hitSlop={8}>
-                                            <Text className="font-inter-medium text-xs text-primary underline">Modifier</Text>
+                                            <Text className="font-inter-medium text-xs text-primary underline">{t("editInfo.update")}</Text>
                                         </Pressable>
                                         {!isMe ? (
                                             <Pressable onPress={() => handleDelete(u.email)} hitSlop={8}>
@@ -149,14 +151,14 @@ export default function AdminUsersForm() {
                                             onPress={() => setEditingEmail(null)}
                                             className="h-10 flex-1 items-center justify-center rounded-lg border-[0.5px] border-outline bg-white"
                                         >
-                                            <Text className="font-inter-medium text-sm text-ink">Annuler</Text>
+                                            <Text className="font-inter-medium text-sm text-ink">{t("editInfo.cancel")}</Text>
                                         </Pressable>
                                         <Pressable
                                             onPress={() => handleEdit(u.email)}
                                             className="h-10 flex-1 items-center justify-center rounded-lg bg-primary active:opacity-80"
                                             style={BUTTON_SHADOW}
                                         >
-                                            <Text className="font-inter-medium text-sm text-white">Enregistrer</Text>
+                                            <Text className="font-inter-medium text-sm text-white">{t("editInfo.submit")}</Text>
                                         </Pressable>
                                     </View>
                                 </View>

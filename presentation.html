@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projet Manga - Présentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-ink: #121926;
+            --color-background: #F8F8F8;
+            --color-outline: #667085;
+            --color-primary: #6F6557;
+            --shadow: 0 2px 8px rgba(24, 28, 20, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body { height: 100%; }
+
+        body {
+            font-family: "Inter", system-ui, sans-serif;
+            font-size: clamp(16px, 1.5vw, 22px);
+            line-height: 1.5;
+            color: var(--color-ink);
+            background: var(--color-background);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6vh 8vw 12vh;
+            overflow-y: auto;
+        }
+
+        .slide.active { display: flex; }
+
+        .eyebrow {
+            font-size: 0.8em;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+        }
+
+        h1 { font-size: 3.2em; font-weight: 600; line-height: 1.1; }
+        h2 { font-size: 2em; font-weight: 600; line-height: 1.2; margin: 0.2em 0 1em; }
+        h3 { font-size: 1em; font-weight: 600; }
+
+        .light { font-weight: 300; }
+        .muted { color: var(--color-outline); }
+        .accent { color: var(--color-primary); font-weight: 600; }
+
+        .cover { flex-direction: row; align-items: center; gap: 6vw; }
+        .cover img {
+            width: min(32vw, 46vh);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            animation: spin 1.2s ease-out;
+        }
+        .cover p { margin-top: 1em; }
+
+        @keyframes spin {
+            from { transform: rotate(-360deg) scale(0.4); opacity: 0; }
+            to { transform: rotate(0) scale(1); opacity: 1; }
+        }
+
+        .section { align-items: flex-start; }
+        .section .number { font-size: 6em; font-weight: 600; line-height: 1; color: var(--color-primary); }
+
+        .grid { display: grid; gap: 1em; grid-template-columns: repeat(auto-fit, minmax(14em, 1fr)); }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 1.1em 1.2em;
+            box-shadow: var(--shadow);
+        }
+        .card p, .card li { font-size: 0.85em; }
+        .card ul { margin-top: 0.4em; padding-left: 1.1em; }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 1.2em; }
+        .chip {
+            border: 1px solid var(--color-primary);
+            border-radius: 12px;
+            padding: 0.15em 0.7em;
+            font-size: 0.8em;
+            color: var(--color-primary);
+        }
+
+        .steps { list-style: none; counter-reset: step; display: grid; gap: 0.7em; }
+        .steps li {
+            counter-increment: step;
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 0.7em 1.2em;
+            box-shadow: var(--shadow);
+        }
+        .steps li::before {
+            content: counter(step);
+            flex: none;
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--color-primary);
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+
+        .bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8em 8vw;
+            background: #FFFFFF;
+            box-shadow: 0 -2px 8px rgba(24, 28, 20, 0.06);
+            font-size: 0.8em;
+        }
+        .bar nav { display: flex; gap: 1.5em; }
+        .bar a { color: var(--color-ink); text-decoration: none; }
+        .bar a.current { color: var(--color-primary); font-weight: 500; }
+
+        @media (max-width: 800px) {
+            .cover { flex-direction: column; text-align: center; }
+            h1 { font-size: 2.2em; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="slide cover active" data-part="intro">
+    <img src="projet_manga/assets/images/splash.png" alt="Logo de l'application">
+    <div>
+        <p class="eyebrow">React Native · Expo SDK 57</p>
+        <h1>Projet Manga</h1>
+        <p class="light">Découvrir des mangas, suivre les sorties et garder sa liste de favoris.</p>
+        <p class="muted">Ylian &amp; Quentin</p>
+    </div>
+</section>
+
+<section class="slide" data-part="intro">
+    <p class="eyebrow">Sommaire</p>
+    <h2>Au programme</h2>
+    <ol class="steps">
+        <li>Techno</li>
+        <li>Organisation</li>
+        <li>Démo</li>
+    </ol>
+</section>
+
+<section class="slide section" data-part="techno">
+    <p class="number">01</p>
+    <h1>Techno</h1>
+    <p class="light">Ce qui fait tourner l'application.</p>
+</section>
+
+<section class="slide" data-part="techno">
+    <p class="eyebrow">Techno</p>
+    <h2>La stack</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Socle</h3>
+            <ul>
+                <li>Expo SDK 57</li>
+                <li>React Native 0.86 · React 19</li>
+                <li>TypeScript</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Navigation</h3>
+            <ul>
+                <li>Expo Router (routes par fichiers)</li>
+                <li><code>/</code>, <code>/manga/[id]</code>, <code>/profil</code></li>
+                <li>Barre d'onglets maison</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Style</h3>
+            <ul>
+                <li>NativeWind (Tailwind CSS)</li>
+                <li>Tokens : ink, background, outline, primary</li>
+                <li>Police Inter · contrastes WCAG AA</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Données</h3>
+            <ul>
+                <li>API <code>api.tenrai.org/v1/manga</code></li>
+                <li>AsyncStorage : comptes, filtres, favoris</li>
+                <li>Context : Auth et Favoris</li>
+            </ul>
+        </div>
+    </div>
+    <div class="chips">
+        <span class="chip">expo-image</span>
+        <span class="chip">expo-calendar</span>
+        <span class="chip">expo-splash-screen</span>
+        <span class="chip">react-native-reanimated</span>
+        <span class="chip">@expo/vector-icons</span>
+    </div>
+</section>
+
+<section class="slide" data-part="techno">
+    <p class="eyebrow">Techno</p>
+    <h2>Organisation du code</h2>
+    <div class="grid">
+        <div class="card"><h3>src/app</h3><p>Les routes Expo Router et le layout racine (polices, splash, providers).</p></div>
+        <div class="card"><h3>src/views</h3><p>Les écrans : Homepage, MangaList, UpdateUser.</p></div>
+        <div class="card"><h3>src/components</h3><p>Les briques réutilisables : MangaCard, ReleaseCalendar, TabBar, SignIn…</p></div>
+        <div class="card"><h3>src/api</h3><p>Les appels à l'API manga, le stockage utilisateur et l'agenda du téléphone.</p></div>
+        <div class="card"><h3>src/context</h3><p>L'état global : utilisateur connecté et favoris.</p></div>
+        <div class="card"><h3>src/theme</h3><p>Les couleurs en variables CSS, reprises par Tailwind.</p></div>
+    </div>
+</section>
+
+<section class="slide section" data-part="organisation">
+    <p class="number">02</p>
+    <h1>Organisation</h1>
+    <p class="light">Comment on a travaillé à deux.</p>
+</section>
+
+<section class="slide" data-part="organisation">
+    <p class="eyebrow">Organisation</p>
+    <h2>Un binôme, un dépôt, des pull requests</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Une branche par fonctionnalité</h3>
+            <p>login, splash, homepage, profilPage, updateProfil, redirection, favorits, style-wcag…</p>
+        </div>
+        <div class="card">
+            <h3>Pull requests sur GitHub</h3>
+            <p>8 pull requests fusionnées : chaque fonctionnalité passe par une relecture avant d'être intégrée.</p>
+        </div>
+        <div class="card">
+            <h3>4 jours de développement</h3>
+            <p>Du 28 septembre au 1<sup>er</sup> octobre 2026, une trentaine de commits.</p>
+        </div>
+    </div>
+</section>
+
+<section class="slide" data-part="organisation">
+    <p class="eyebrow">Organisation</p>
+    <h2>Qui a fait quoi</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Quentin</h3>
+            <ul>
+                <li>Initialisation du projet</li>
+                <li>Connexion, inscription, AuthContext</li>
+                <li>Filtres et page d'accueil</li>
+                <li>Page détail d'un manga</li>
+                <li>Page profil, modification du pseudo et des filtres</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Ylian</h3>
+            <ul>
+                <li>NativeWind et variables de couleur</li>
+                <li>Style des écrans et splash animé</li>
+                <li>Liste des mangas et calendrier des sorties</li>
+                <li>Favoris « Ma liste »</li>
+                <li>Contrastes WCAG et ajout à l'agenda</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="slide section" data-part="demo">
+    <p class="number">03</p>
+    <h1>Démo</h1>
+    <p class="light">L'application en vrai, sur le téléphone.</p>
+</section>
+
+<section class="slide" data-part="demo">
+    <p class="eyebrow">Démo</p>
+    <h2>Le parcours</h2>
+    <ol class="steps">
+        <li>Splash animé, puis inscription et connexion</li>
+        <li>Choix du type de livre et des genres préférés</li>
+        <li>Liste des mangas filtrée, chargée page par page depuis l'API</li>
+        <li>Fiche d'un manga : détails, illustrations, ajout aux favoris</li>
+        <li>Calendrier des sorties et ajout d'une sortie à l'agenda du téléphone</li>
+        <li>Profil : « Ma liste », modification du pseudo et des filtres</li>
+    </ol>
+</section>
+
+<section class="slide cover" data-part="demo">
+    <img src="projet_manga/assets/images/splash.png" alt="Logo de l'application">
+    <div>
+        <h1>Merci !</h1>
+        <p class="light">Des questions ?</p>
+    </div>
+</section>
+
+<footer class="bar">
+    <nav>
+        <a href="#" data-target="techno">Techno</a>
+        <a href="#" data-target="organisation">Organisation</a>
+        <a href="#" data-target="demo">Démo</a>
+    </nav>
+    <span id="counter"></span>
+</footer>
+
+<script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const links = [...document.querySelectorAll(".bar a")];
+    const counter = document.getElementById("counter");
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, slideIndex) => slide.classList.toggle("active", slideIndex === currentSlide));
+        const part = slides[currentSlide].dataset.part;
+        links.forEach((link) => link.classList.toggle("current", link.dataset.target === part));
+        counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+    }
+
+    document.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "PageDown"].includes(event.key)) showSlide(currentSlide + 1);
+        if (["ArrowLeft", "PageUp"].includes(event.key)) showSlide(currentSlide - 1);
+    });
+
+    links.forEach((link) => link.addEventListener("click", (event) => {
+        event.preventDefault();
+        showSlide(slides.findIndex((slide) => slide.dataset.part === link.dataset.target));
+    }));
+
+    showSlide(0);
+</script>
+</body>
+</html>
