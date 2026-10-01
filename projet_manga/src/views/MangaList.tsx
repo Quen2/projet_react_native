@@ -7,6 +7,7 @@ import TabBar from "@/components/TabBar";
 import Logo from "@/components/Logo";
 import Halftone from "@/components/Halftone";
 import SectionTitle from "@/components/SectionTitle";
+import Separator from "@/components/Separator";
 
 const NO_FILTERS: Filters = {categories: [], type: null};
 
@@ -25,7 +26,9 @@ export default function MangaList(props: {
                     <Logo />
                 </View>
                 <MangaSection key={JSON.stringify(filters)} title="Nos recommandations" filters={filters} />
+                <Separator />
                 <MangaSection title="Catalogue" filters={NO_FILTERS} />
+                <Separator />
                 <View className="mt-8 px-6">
                     <SectionTitle title="Sorties du mois" />
                 </View>

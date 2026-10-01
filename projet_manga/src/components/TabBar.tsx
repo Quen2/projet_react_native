@@ -1,5 +1,6 @@
-import {Pressable, Text, View} from "react-native";
+import {Animated, Pressable, StyleSheet, Text, View} from "react-native";
 import {Href, router, usePathname} from "expo-router";
+import {useEffect, useRef} from "react";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {Ionicons} from "@expo/vector-icons";
 import {palette} from "@/theme/palette";
@@ -8,6 +9,20 @@ const TABS = [
     {href: "/" as Href, label: "Accueil", icon: "home"},
     {href: "/profil" as Href, label: "Profil", icon: "person"},
 ] as const;
+
+function ActiveSlab () {
+    const scale = useRef(new Animated.Value(0.4)).current;
+
+    useEffect(() => {
+        Animated.spring(scale, {toValue: 1, friction: 5, useNativeDriver: true}).start();
+    }, []);
+
+    return (
+        <Animated.View style={[StyleSheet.absoluteFill, {transform: [{scale}]}]}>
+            <View className="absolute inset-0 -rotate-3 bg-primary" />
+        </Animated.View>
+    )
+}
 
 export default function TabBar () {
     const pathname = usePathname();
@@ -31,7 +46,7 @@ export default function TabBar () {
                 return (
                     <Pressable key={tab.label} onPress={() => openTab(tab.href)} className="flex-1 items-center">
                         <View className="h-9 w-16 items-center justify-center">
-                            {active ? <View className="absolute inset-0 -rotate-3 bg-primary" /> : null}
+                            {active ? <ActiveSlab /> : null}
                             <Ionicons
                                 name={active ? tab.icon : `${tab.icon}-outline`}
                                 size={24}
