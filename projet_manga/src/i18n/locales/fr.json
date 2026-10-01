@@ -47,7 +47,8 @@
   },
   "favorite": {
     "list": "Ma liste",
-    "none": "Aucun manga dans ta liste pour le moment."
+    "none": "Aucun manga dans ta liste pour le moment.",
+    "add": "Ta liste est vide. Touche l'étoile sur une fiche manga pour l'ajouter ici."
   }
 
 }

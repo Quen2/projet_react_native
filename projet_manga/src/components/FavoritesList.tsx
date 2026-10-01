@@ -14,7 +14,7 @@ export default function FavoritesList() {
 
             {favorites.length === 0 ? (
                 <Text className="mt-3 font-inter text-sm text-outline">
-                    Ta liste est vide. Touche l'étoile sur une fiche manga pour l'ajouter ici.
+                    {t("favorite.add")}
                 </Text>
             ) : (
                 <View className="mt-4 flex-row flex-wrap gap-4">
