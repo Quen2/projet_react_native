@@ -13,17 +13,17 @@ export default function MangaCard ({manga}: MangaCardProps) {
 
     return (
         <Pressable onPress={openDetail} className="w-32">
-            <View>
+            <View className={`border-[3px] border-ink ${manga.mal_id % 2 ? "-rotate-2" : "rotate-1"}`}>
                 <Image
                     source={{uri: manga.images.jpg.large_image_url}}
-                    className="h-44 w-32 rounded-md"
+                    className="h-44 w-full"
                     resizeMode="cover"
                 />
-                <Text className="absolute right-0 top-0 rounded-tr-md bg-primary px-1.5 py-0.5 font-inter text-xs text-white">
+                <Text className="absolute -left-2 top-3 -rotate-12 bg-accent px-2 py-0.5 font-bungee text-[10px] text-night">
                     {manga.type}
                 </Text>
             </View>
-            <Text className="mt-1.5 font-inter-medium text-xs text-ink" numberOfLines={2}>
+            <Text className="mt-3 font-inter-semibold text-xs text-ink" numberOfLines={2}>
                 {manga.title}
             </Text>
         </Pressable>
