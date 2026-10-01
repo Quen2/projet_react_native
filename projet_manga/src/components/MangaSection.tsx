@@ -54,7 +54,7 @@ export default function MangaSection ({title, filters}: MangaSectionProps) {
                 className="mt-3"
                 contentContainerClassName="gap-3 px-6"
                 ListFooterComponent={
-                    hasNextPage ? <ActivityIndicator color="#948979" className="h-44 px-4" /> : null
+                    hasNextPage ? <ActivityIndicator color="#6F6557" className="h-44 px-4" /> : null
                 }
                 ListEmptyComponent={
                     hasNextPage ? null : <Text className="font-inter-light text-sm text-ink">Aucun manga trouvé</Text>

@@ -32,7 +32,7 @@ export default function TabBar () {
                         <Ionicons
                             name={active ? tab.icon : `${tab.icon}-outline`}
                             size={24}
-                            color={active ? "#948979" : "#121926"}
+                            color={active ? "#6F6557" : "#121926"}
                         />
                         <Text className={`mt-1 text-sm ${active ? "font-inter-medium text-primary" : "font-inter text-ink"}`}>
                             {tab.label}

@@ -57,7 +57,7 @@ export default function SignIn ({onSwitch}: SignInProps) {
                         </View>
                         {
                             errorMessage ?
-                                <Text className="mt-2 font-inter-light text-[10px] text-ink">*{errorMessage}</Text> : null
+                                <Text className="mt-2 font-inter text-xs text-ink">*{errorMessage}</Text> : null
                         }
 
                         <Pressable

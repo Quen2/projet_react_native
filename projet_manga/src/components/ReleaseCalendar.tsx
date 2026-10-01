@@ -1,6 +1,9 @@
 import {Pressable, Text, View} from "react-native";
 import {useState} from "react";
+import {Ionicons} from "@expo/vector-icons";
 import {releaseData} from "@/mock/release/releaseData";
+import {addReleaseToCalendar} from "@/api/calendar/addReleaseToCalendar";
+import {ReleaseType} from "@/type/release/releaseType";
 
 const WEEK_DAYS = ["L", "M", "M", "J", "V", "S", "D"];
 
@@ -15,6 +18,7 @@ export default function ReleaseCalendar () {
     const [selectedDate, setSelectedDate] = useState<string>(
         toDateKey(today.getFullYear(), today.getMonth(), today.getDate())
     );
+    const [message, setMessage] = useState<string>("");
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const offset = (new Date(year, month, 1).getDay() + 6) % 7;
@@ -27,6 +31,19 @@ export default function ReleaseCalendar () {
         const newDate = new Date(year, month + step);
         setYear(newDate.getFullYear());
         setMonth(newDate.getMonth());
+    }
+
+    const selectDate = (dateKey: string) => {
+        setSelectedDate(dateKey);
+        setMessage("");
+    }
+
+    const addToCalendar = async (release: ReleaseType) => {
+        try {
+            setMessage(await addReleaseToCalendar(release));
+        } catch {
+            setMessage("Impossible d'ajouter la sortie à l'agenda");
+        }
     }
 
     return (
@@ -43,7 +60,7 @@ export default function ReleaseCalendar () {
 
             <View className="mt-3 flex-row flex-wrap">
                 {WEEK_DAYS.map((weekDay, index) => (
-                    <Text key={index} className="w-[14.28%] text-center font-inter-light text-xs text-outline">
+                    <Text key={index} className="w-[14.28%] text-center font-inter text-xs text-outline">
                         {weekDay}
                     </Text>
                 ))}
@@ -58,7 +75,7 @@ export default function ReleaseCalendar () {
                     return (
                         <Pressable
                             key={dateKey}
-                            onPress={() => setSelectedDate(dateKey)}
+                            onPress={() => selectDate(dateKey)}
                             className="h-10 w-[14.28%] items-center justify-center"
                         >
                             <View className={`h-8 w-8 items-center justify-center rounded-full ${selected ? "bg-primary" : ""}`}>
@@ -73,13 +90,26 @@ export default function ReleaseCalendar () {
             <View className="mt-3 border-t-[0.5px] border-outline pt-3">
                 {selectedReleases.length ? (
                     selectedReleases.map((release) => (
-                        <Text key={release.title} className="font-inter text-sm text-ink">
-                            {release.title} <Text className="font-inter-semibold text-primary">Tome {release.volume}</Text>
-                        </Text>
+                        <View key={release.title} className="flex-row items-center justify-between py-1">
+                            <Text className="flex-1 font-inter text-sm text-ink">
+                                {release.title} <Text className="font-inter-semibold text-primary">Tome {release.volume}</Text>
+                            </Text>
+                            <Pressable
+                                onPress={() => addToCalendar(release)}
+                                hitSlop={10}
+                                accessibilityRole="button"
+                                accessibilityLabel={`Ajouter ${release.title} à mon agenda`}
+                                className="ml-3 flex-row items-center active:opacity-80"
+                            >
+                                <Ionicons name="calendar-outline" size={16} color="#6F6557" />
+                                <Text className="ml-1 font-inter-medium text-xs text-primary">Ajouter à mon agenda</Text>
+                            </Pressable>
+                        </View>
                     ))
                 ) : (
                     <Text className="font-inter-light text-sm text-ink">Aucune sortie ce jour</Text>
                 )}
+                {message ? <Text className="mt-2 font-inter text-xs text-ink">{message}</Text> : null}
             </View>
         </View>
     )
